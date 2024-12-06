@@ -1,0 +1,14 @@
+# ignores : compilation files for rocket + rust + packages 
+target/*
+cargo.lock
+
+# ignores : places where API keys are stored 
+rocket.toml 
+
+# ignores : json files that do not need to be committed 
+src/bin/testing_json_files/*
+src/bin/official_nav_json_files/*
+src/bin/json_files/*
+src/data/*
+src/scripts/get_data/*
+src/scripts/data_transformation/venv/*

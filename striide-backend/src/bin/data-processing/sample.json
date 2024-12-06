@@ -1,0 +1,156 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -71.0568408,
+                        42.3765583
+                    ],
+                    [
+                        -71.0567518,
+                        42.3766552
+                    ],
+                    [
+                        -71.0565369,
+                        42.3768823
+                    ],
+                    [
+                        -71.0564846,
+                        42.3769394
+                    ],
+                    [
+                        -71.0564318,
+                        42.3769974
+                    ],
+                    [
+                        -71.056423,
+                        42.3770071
+                    ],
+                    [
+                        -71.0563485,
+                        42.3770891
+                    ],
+                    [
+                        -71.0558984,
+                        42.3773008
+                    ]
+                ]
+            },
+            "properties": {}
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -71.0570587,
+                        42.3770842
+                    ],
+                    [
+                        -71.0570832,
+                        42.3770015
+                    ],
+                    [
+                        -71.0570863,
+                        42.3769923
+                    ],
+                    [
+                        -71.0570819,
+                        42.3769234
+                    ],
+                    [
+                        -71.0570426,
+                        42.3768437
+                    ],
+                    [
+                        -71.0568408,
+                        42.3765583
+                    ],
+                    [
+                        -71.0567925,
+                        42.376479
+                    ],
+                    [
+                        -71.056788,
+                        42.3764728
+                    ],
+                    [
+                        -71.0567229,
+                        42.3763827
+                    ],
+                    [
+                        -71.0566482,
+                        42.3763005
+                    ],
+                    [
+                        -71.0566482,
+                        42.3763005
+                    ],
+                    [
+                        -71.0563433,
+                        42.3760392
+                    ],
+                    [
+                        -71.0562913,
+                        42.3759821
+                    ],
+                    [
+                        -71.056279,
+                        42.3759502
+                    ]
+                ]
+            },
+            "properties": {}
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "OBJECTID": 1,
+                "From_Date": "2023-01-01T00:00:00Z",
+                "To_Date": null,
+                "Event_ID": "{0DF3F36F-DDB6-4A6B-86FB-11A6BE4CC525}",
+                "Route_ID": "B0001",
+                "From_Measure": 11.19739566,
+                "To_Measure": 11.20816164,
+                "Lt_Sidewlk": 0,
+                "Rt_Sidewlk": 0,
+                "Created_by": "DOT_ADMIN",
+                "Date_Created": "2023-01-16T01:51:46Z",
+                "Edited_By": "DOT_ADMIN",
+                "Date_Edited": "2023-01-16T01:51:46Z",
+                "LocError": "NO ERROR",
+                "GlobalID": "{70E4E03B-046B-4C45-AB3D-D190C141C905}",
+                "Pd_Sf_Type": null,
+                "Pd_Fc_Type": null,
+                "Cr_Slope": null,
+                "Path_Width": null,
+                "Left_Cond": null,
+                "Right_Cond": null,
+                "Shape__Length": 17.326219746095802,
+                "PedestrianFac": null,
+                "created_user": null,
+                "last_edited_user": null,
+                "created_date": null,
+                "last_edited_date": null
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -73.114940657480091,
+                        42.629822568946082
+                    ],
+                    [
+                        -73.114865002152101,
+                        42.629968193769649
+                    ]
+                ]
+            }
+        }
+    ]
+}
