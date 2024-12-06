@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: react-frontend
+    build:
+      context: ./striide-frontend
+      dockerfile: Dockerfile # Dockerfile for your React frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_MAPBOX_TOKEN: "pk.eyJ1Ijoic3RyaWlkZSIsImEiOiJjbHN1dml6em0wM3E0MmxzMWVwMjNvNDBsIn0.aWXVdLx6iq3ZSSavUicsZA"
+      NEXT_PUBLIC_MAPBOX_MAP_STYLE: "mapbox://styles/striide/clyorf2ms024e01p81gy3577s"
+      NEXT_PUBLIC_API_URL: "https://striide-45qob5kdnq-ue.a.run.app"
+      NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN: "56fb4ac0-34e4-46df-b6a9-a6c86eb68ec3"
+
+  backend:
+    image: striide-backend-image
+    build:
+      context: ./striide-backend
+    environment:
+      ROCKET_DATABASES: >
+        {postgres={url="postgresql://cb2s42:xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3@us-east-1.sql.xata.sh/striide:main?sslmode=require", max_connections=1024}}
+      ENV: development
+      XATA_API_KEY: "xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3"
+    ports:
+      - "8000:8080"

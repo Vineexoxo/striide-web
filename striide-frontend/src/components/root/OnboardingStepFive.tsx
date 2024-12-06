@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../Button";
 
 const options = ["Social Media", "Friends / Family", "Email / Newsletter", "Exploring the app store", "Other"];
@@ -40,5 +40,6 @@ const OnboardingStepFive = ({
         </div>
     );
 };
+
 
 export default OnboardingStepFive;

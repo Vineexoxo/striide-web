@@ -82,8 +82,12 @@ const OnboardingForm = () => {
             const transportation = prevData.transportation.includes(option)
                 ? prevData.transportation.filter((opt) => opt !== option)
                 : [...prevData.transportation, option];
+            while (transportation.length < 4) {
+                transportation.push(""); // Add empty strings until the array size is 4
+            }
             return { ...prevData, transportation };
         });
+
     };
 
     const handleFrequencyChange = (frequency: string) => {
@@ -135,38 +139,39 @@ const OnboardingForm = () => {
 
         console.log("Payload:", JSON.stringify(payload, null, 2));
 
-        try {
-            const response = await fetch("http://127.0.0.1:8000/api/entry", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-            });
+        // try {
+        //     const response = await fetch("http://127.0.0.1:8000/api/entry", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(payload),
+        //     });
 
-            const responseText = await response.text();
-            console.log("Response status:", response.status);
-            console.log("Response headers:", response.headers);
-            console.log("Response body:", responseText);
+        //     const responseText = await response.text();
+        //     console.log("Response status:", response.status);
+        //     console.log("Response headers:", response.headers);
+        //     console.log("Response body:", responseText);
 
-            if (!response.ok) {
-                throw new Error(`Failed to submit data: ${response.status} ${response.statusText}`);
-            }
+        //     if (!response.ok) {
+        //         throw new Error(`Failed to submit data: ${response.status} ${response.statusText}`);
+        //     }
 
-            try {
-                const responseData = JSON.parse(responseText);
-                console.log("Parsed response data:", responseData);
-            } catch (parseError) {
-                console.error("Error parsing response as JSON: ", parseError);
-            }
+        //     try {
+        //         const responseData = JSON.parse(responseText);
+        //         console.log("Parsed response data:", responseData);
+        //     } catch (parseError) {
+        //         console.error("Error parsing response as JSON: ", parseError);
+        //     }
 
-            console.log("Data submitted successfully");
-            // Redirect to the map page
-            router.push('/map');
-        } catch (error) {
-            console.error("Error submitting data:", error);
-            // Handle error (e.g., show an error message to the user)
-        }
+        //     console.log("Data submitted successfully");
+        //     // Redirect to the map page
+        //     router.push('/map');
+        // } catch (error) {
+        //     console.error("Error submitting data:", error);
+        //     // Handle error (e.g., show an error message to the user)
+        // }
+        router.push('/map');
     };
 
     return (
@@ -182,7 +187,7 @@ const OnboardingForm = () => {
             )}
             {step === 1 && (
                 <OnboardingStepTwo
-                    transportation={formData.transportation}
+                    transportation={formData.transportation}  // Ensure size is 4
                     handleTransportationChange={handleTransportationChange}
                     onContinue={handleContinue}
                 />
