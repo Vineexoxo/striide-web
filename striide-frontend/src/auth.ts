@@ -10,9 +10,10 @@ interface UserInfo {
     name: string;
     onboard: boolean;
 }
+//`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/entry`
 
 const userInfo = async (access_token: string) => {
-    const response = await fetch(`${BASE_URL}/api/verify_session`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/verify_session`, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${access_token}`,

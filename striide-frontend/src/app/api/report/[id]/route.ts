@@ -7,7 +7,7 @@ export const POST = async (
     _: NextRequest,
     { params }: { params: { id: string } },
 ) => {
-    const response = await fetch(`${BASE_URL}/api/get_report`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/get_report`, {
         method: "POST",
         body: JSON.stringify({
             id: params.id,
@@ -41,7 +41,7 @@ export const POST = async (
 
         const access_token = tokenData.body.token;
 
-        const likes_response = await fetch(`${BASE_URL}/api/report_likes`, {
+        const likes_response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/report_likes`, {
             method: "POST",
             body: JSON.stringify({
                 id: params.id,

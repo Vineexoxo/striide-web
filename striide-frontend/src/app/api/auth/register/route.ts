@@ -5,7 +5,7 @@ import { BASE_URL } from "@/lib/constants";
 export const POST = async (request: NextRequest) => {
     /* TODO: Safely parse data with Zod */
     const body = await request.json();
-    const response = await fetch(`${BASE_URL}/api/register`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/register`, {
         method: "POST",
         body: JSON.stringify({
             email: body.email,

@@ -52,7 +52,7 @@ const create_marker = (
     pin.onclick = async () => {
         setReportLoading(true);
 
-        const response = await fetch(`/api/report/${report.id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/report/${report.id}`, {
             method: "POST",
         });
         const data = await response.json();
@@ -226,7 +226,7 @@ const Reports = ({ reports }: ReportsProps) => {
                                         if (userLike === false) {
                                             setUserLike(null);
                                             request(
-                                                `${BASE_URL}/api/like_report`,
+                                                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/like_report`,
                                                 {
                                                     method: "POST",
                                                     body: JSON.stringify({
@@ -238,7 +238,7 @@ const Reports = ({ reports }: ReportsProps) => {
                                         } else {
                                             setUserLike(false);
                                             request(
-                                                `${BASE_URL}/api/like_report`,
+                                                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/like_report`,
                                                 {
                                                     method: "POST",
                                                     body: JSON.stringify({
@@ -284,7 +284,7 @@ const Reports = ({ reports }: ReportsProps) => {
                                         if (userLike === true) {
                                             setUserLike(null);
                                             request(
-                                                `${BASE_URL}/api/like_report`,
+                                                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/like_report`,
                                                 {
                                                     method: "POST",
                                                     body: JSON.stringify({
@@ -296,7 +296,7 @@ const Reports = ({ reports }: ReportsProps) => {
                                         } else {
                                             setUserLike(true);
                                             request(
-                                                `${BASE_URL}/api/like_report`,
+                                                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/like_report`,
                                                 {
                                                     method: "POST",
                                                     body: JSON.stringify({

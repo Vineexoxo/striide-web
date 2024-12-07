@@ -131,7 +131,7 @@ const Feedback = () => {
             console.log("Missing required fields");
             return;
         }
-        const res = await request(`${BASE_URL}/api/feedback`, {
+        const res = await request(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/feedback`, {
             method: "POST",
             body: JSON.stringify({
                 report_type: report_type[formData.type!],

@@ -46,7 +46,7 @@ const DynamicDraft = ({ params }: { params: { slug: string } }) => {
 
     useEffect(() => {
         const fetch_draft = async () => {
-            const response = await request(`${BASE_URL}/api/fetch_report_draft`, {
+            const response = await request(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/fetch_report_draft`, {
                 method: 'POST',
                 headers: {
                     Accept: "*/*",

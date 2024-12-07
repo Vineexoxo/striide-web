@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 import Logo from "@/components/root/Logo";
 import Welcome from "@/components/root/Welcome";
 import Wrapper from "@/components/Wrapper";
-
+//process.env.NEXT_PUBLIC_BACKEND_URL
 export default function Home() {
     const router = useRouter();
 
     useEffect(() => {
         async function checkSession() {
-            const response = await fetch("http://127.0.0.1:8000/api/check_session", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/check_session`, {
                 method: "GET",
                 credentials: "include",
             });

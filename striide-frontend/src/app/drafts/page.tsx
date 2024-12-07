@@ -46,7 +46,7 @@ const SavedDrafts: FC = ({ }) => {
 
     useEffect(() => {
         const fetch_reports = async () => {
-            const response = await request(`${BASE_URL}/api/fetch_reports`, {
+            const response = await request(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/fetch_reports`, {
                 method: "GET",
                 headers: {
                     Accept: "*/*",

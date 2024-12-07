@@ -209,7 +209,7 @@ export default function MapPage() {
 
     useEffect(() => {
         const get_reports = async () => {
-            fetch(`${BASE_URL}/api/report_ids`).then((res) => {
+            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/report_ids`).then((res) => {
                 res.json().then((data) => {
                     setReports(data.body.reports);
                 });
@@ -286,7 +286,7 @@ export default function MapPage() {
 
         console.log(customCoords);
 
-        fetch(`${BASE_URL}/api/query_route`, {
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/query_route`, {
             method: "POST",
             headers: {
                 Accept: "*/*",
@@ -356,7 +356,7 @@ export default function MapPage() {
                 );
             });
 
-        fetch(`${BASE_URL}/api/query_route`, {
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/query_route`, {
             method: "POST",
             headers: {
                 Accept: "*/*",

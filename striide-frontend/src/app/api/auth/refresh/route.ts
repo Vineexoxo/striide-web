@@ -10,7 +10,7 @@ export const POST = async () => {
             message: "No refresh token found",
         });
     }
-    const response = await fetch(`${BASE_URL}/api/refresh_access`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/refresh_access`, {
         method: "POST",
         headers: {
             Cookie: `auth_cookie=${refresh_token}`,

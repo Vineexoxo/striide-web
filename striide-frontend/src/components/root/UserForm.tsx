@@ -260,52 +260,53 @@ const SignUpForm = () => {
             setIsLoading(false);
             return;
         }
-        else{
-            router.push("/user/onboard");
-        }
-
-        // try {
-        //     const ipAddress = await getIpAddress();
-        //     if (!ipAddress) {
-        //         setErrorMessage("Failed to fetch IP address.");
-        //         setIsLoading(false);
-        //         return;
-        //     }
-
-        //     const payload = {
-        //         name,
-        //         email,
-        //         password,
-        //         ip: ipAddress,
-        //     };
-
-        //     // Log the JSON payload to the console
-        //     console.log("Payload:", JSON.stringify(payload, null, 2));
-
-        //     const response = await fetch("http://localhost:8000/register", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(payload),
-        //     });
-
-        //     if (response.ok) {
-        //         router.push("/user/onboard");
-        //     } else {
-        //         const errorData = await response.json();
-        //         if (response.status === 409) {
-        //             setErrorMessage("User already exists.");
-        //         } else {
-        //             setErrorMessage(errorData.message || "An error occurred.");
-        //         }
-        //     }
-        // } catch (error) {
-        //     setErrorMessage("An unexpected error occurred.");
-        //     console.error(error);
-        // } finally {
-        //     setIsLoading(false);
+        // else{
+        //     router.push("/user/onboard");
         // }
+
+        try {
+            const ipAddress = await getIpAddress();
+            if (!ipAddress) {
+                setErrorMessage("Failed to fetch IP address.");
+                setIsLoading(false);
+                return;
+            }
+
+            const payload = {
+                name,
+                email,
+                password,
+                ip: ipAddress,
+            };
+
+            // Log the JSON payload to the console
+            console.log("Payload:", JSON.stringify(payload, null, 2));
+
+            // const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/register`, {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //     },
+            //     body: JSON.stringify(payload),
+            // });
+
+            // if (response.ok) {
+            //     router.push("/user/onboard");
+            // } else {
+            //     const errorData = await response.json();
+            //     if (response.status === 409) {
+            //         setErrorMessage("User already exists.");
+            //     } else {
+            //         setErrorMessage(errorData.message || "An error occurred.");
+            //     }
+            // }
+            router.push("/user/onboard");
+        } catch (error) {
+            setErrorMessage("An unexpected error occurred.");
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (

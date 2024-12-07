@@ -200,13 +200,13 @@ const Map: FC<MapProps> = ({
     }, [map, mapboxPath]);
 
     useEffect(() => {
-        fetch(`${BASE_URL}/api/open_businesses`).then((res) => {
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/open_businesses`).then((res) => {
             res.json().then((data) => {
                 setOpenBuildings(data.body.ids);
             });
         });
         const interval = setInterval(() => {
-            fetch(`${BASE_URL}/api/open_businesses`).then((res) => {
+            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/open_businesses`).then((res) => {
                 res.json().then((data) => {
                     setOpenBuildings(data.body.ids);
                 });
