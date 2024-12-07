@@ -12,3 +12,6 @@ src/bin/json_files/*
 src/data/*
 src/scripts/get_data/*
 src/scripts/data_transformation/venv/*
+
+# local env files
+.env*.local
