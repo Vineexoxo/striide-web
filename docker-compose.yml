@@ -15,6 +15,7 @@ services:
       NEXT_PUBLIC_MAPBOX_MAP_STYLE: "mapbox://styles/striide/clyorf2ms024e01p81gy3577s"
       NEXT_PUBLIC_API_URL: "https://striide-45qob5kdnq-ue.a.run.app"
       NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN: "56fb4ac0-34e4-46df-b6a9-a6c86eb68ec3"
+      NEXT_PUBLIC_BACKEND_URL: "http://127.0.0.1:8000"
 
   backend:
     image: striide-backend-image
@@ -27,3 +28,18 @@ services:
       XATA_API_KEY: "xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3"
     ports:
       - "8000:8080"
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=stride
+      - POSTGRES_USER=cb2s42
+      - POSTGRES_PASSWORD=xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y pkg-config libssl-dev
 
 WORKDIR /build
 
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml ./
 COPY src ./src
 COPY api ./api
 COPY application ./application

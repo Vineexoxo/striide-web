@@ -21,7 +21,7 @@ import Link from "next/link";
 const MapOptions = {
     latitude: 42.362,
     longitude: -71.057,
-    zoom: 18,
+    zoom: 17,
 };
 
 const debounce_time_factor = 500;
