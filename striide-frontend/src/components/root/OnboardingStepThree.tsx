@@ -36,7 +36,11 @@ const OnboardingStepThree = ({
                 ))}
             </div>
             <div className="flex items-center justify-center mt-40">
-                <Button onClick={onContinue} className="w-[323px]">
+            <Button
+                    onClick={onContinue}
+                    className="w-[323px]"
+                    disabled={frequency === null}  // Disable the button if 'frequency' is null
+                >
                     Continue
                 </Button>
             </div>

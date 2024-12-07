@@ -32,6 +32,23 @@ const OnboardingStepOne = ({
 }) => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        // Check if all fields are filled
+        const isFormValid =
+            formData.email.trim() &&
+            formData.city.trim() &&
+            formData.state.trim() &&
+            formData.occupation.trim() &&
+            formData.birthday.trim() &&
+            // formData.phoneNumber.trim() &&
+            formData.gender &&
+            formData.isConfirmed;
+
+        if (!isFormValid) {
+            alert("Please fill in all fields and confirm the terms to continue.");
+            return;
+        }
+        console.log();
         onContinue();
     };
 

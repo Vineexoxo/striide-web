@@ -405,9 +405,10 @@ export default function MapPage() {
                             Saved Drafts
                         </Link>
                         <a
-                            href="https://drive.google.com/uc?export=download&id=10pFz5xM8TOq-OoxAtPsY2sQwAcGxOTDL"
+                            href="https://drive.google.com/file/d/10pFz5xM8TOq-OoxAtPsY2sQwAcGxOTDL/view?usp=sharing"
                             className="block text-white hover:text-gray-200 text-lg py-2 text-center w-full"
-                            download="Terms_and_Conditions.pdf"
+                            target="_blank"  // Opens the link in a new tab
+                            rel="noopener noreferrer"  // Improves security
                         >
                             Terms and Conditions
                         </a>

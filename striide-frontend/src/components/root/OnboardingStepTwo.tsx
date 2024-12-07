@@ -14,6 +14,7 @@ const OnboardingStepTwo = ({
     handleTransportationChange: (option: string) => void;
     onContinue: () => void;
 }) => {
+
     return (
         <div className="mt-4">
             <h1 className="font-montserrat text-[20px] font-normal leading-[29.26px] text-left text-[#1F1926] mb-[30px]">
@@ -39,7 +40,11 @@ const OnboardingStepTwo = ({
                 })}
             </div>
             <div className="flex items-center justify-center mt-48">
-                <Button onClick={onContinue} className="w-[323px]">
+                <Button
+                    onClick={onContinue}
+                    className="w-[323px]"
+                    disabled={transportation.length !== 4}
+                >
                     Continue
                 </Button>
             </div>

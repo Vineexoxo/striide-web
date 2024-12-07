@@ -39,7 +39,11 @@ const OnboardingStepFour = ({
                 })}
             </div>
             <div className="flex items-center justify-center mt-40">
-                <Button onClick={onContinue} className="w-[323px]">
+                <Button 
+                    onClick={onContinue}
+                    className="w-[323px]"
+                    disabled={travelTimes.length === 0}  // Disable the button if no option is selected
+                >
                     Continue
                 </Button>
             </div>
