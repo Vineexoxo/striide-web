@@ -1,0 +1,40 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main # Trigger on push to main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    
+    # Step 1: Checkout the code from GitHub
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Build Docker image for Backend
+    - name: Build Backend Docker image
+      run: |
+        cd backend
+        docker build -t backend-image .
+        docker rmi backend-image
+
+    # Step 3: Build Docker image for Frontend
+    - name: Build Frontend Docker image
+      run: |
+        cd frontend
+        docker build -t frontend-image .
+        docker rmi frontend-image 
+
+    # Step 4: Run Docker Compose to bring up the containers
+    - name: Run Docker Compose up
+      run: |
+        docker-compose -f docker-compose.yml up -d
+
+    # Step 5: Clean up Docker images
+    - name: Clean up Docker images
+      run: |
+        docker system prune -f  
