@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy_backend:
-    runs-on: aws-ec2-backend
+    runs-on: self-hosted
 
     steps:
       # Step 1: Pull Backend Docker Image
@@ -38,8 +38,7 @@ jobs:
       # Step 4: Clean up Docker images (optional)
       - name: Clean up Docker images
         run: sudo docker image prune -f
-        
-jobs:
+
   deploy_frontend:
     runs-on: aws-ec2
 
