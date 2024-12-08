@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy_backend:
-    runs-on: [aws-ec2-backend]
+    runs-on: self-hosted
 
     steps:
       # Step 1: Pull Backend Docker Image
@@ -40,7 +40,7 @@ jobs:
         run: sudo docker image prune -f
 
   deploy_frontend:
-    runs-on: [aws-ec2]
+    runs-on: self-hosted
 
     steps:
       # Step 1: Pull Frontend Docker Image
