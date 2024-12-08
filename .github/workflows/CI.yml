@@ -33,18 +33,12 @@ jobs:
     # Step 3: Build Docker image for Backend
     - name: Build Backend Docker image
       env:
-        ROCKET_DATABASES: ${{ secrets.ROCKET_DATABASES }}
-        ENV: ${{ secrets.ENV }}
-        XATA_API_KEY: ${{ secrets.XATA_API_KEY }}
+        ROCKET_DATABASES: ${{secrets.ROCKET_DATABASES}}
+        ENV: ${{secrets.ENV}}
+        XATA_API_KEY: ${{secrets.XATA_API_KEY}}
       run: |
         cd striide-backend
-        docker buildx build \
-          --build-arg ROCKET_DATABASES=$ROCKET_DATABASES \
-          --build-arg ENV=$ENV \
-          --build-arg XATA_API_KEY=$XATA_API_KEY \
-          -t vineexoxo/striide-backend:latest \
-          .
-
+        docker build -t vineexoxo/striide-backend:latest .
 
     # Step 4: Push Docker image to Dockerhub
     - name: Push striide-backend to Dockerhub
@@ -62,12 +56,7 @@ jobs:
 
       run: |
         cd striide-frontend
-        docker build --build-arg NEXT_PUBLIC_MAPBOX_TOKEN=$NEXT_PUBLIC_MAPBOX_TOKEN \
-                    --build-arg NEXT_PUBLIC_MAPBOX_MAP_STYLE=$NEXT_PUBLIC_MAPBOX_MAP_STYLE \
-                    --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
-                    --build-arg NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN=$NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN \
-                    --build-arg NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL \
-                    -t vineexoxo/striide-frontend:latest .
+        docker build -t vineexoxo/striide-frontend:latest .
 
     # Step 6: Push Docker image to Dockerhub
     - name: Push striide-frontend to Dockerhub
