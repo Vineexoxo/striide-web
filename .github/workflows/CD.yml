@@ -36,7 +36,7 @@ jobs:
             -e NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
             -e NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN=$NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN \
             -e NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL \
-            -p 8000:8080 vineexoxo/striide-frontend:latest
+            -p 3000:3000 vineexoxo/striide-frontend:latest
 
       # Step 4: Clean up Docker images (optional)
       - name: Clean up Docker images
