@@ -1,8 +1,5 @@
 name: Test Backend Runner
 
-on:
-  workflow_dispatch
-
 jobs:
   test-backend:
     runs-on: aws-ec2-backend
