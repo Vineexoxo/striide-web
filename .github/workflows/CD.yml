@@ -38,7 +38,8 @@ jobs:
       # Step 4: Clean up Docker images (optional)
       - name: Clean up Docker images
         run: sudo docker image prune -f
-
+        
+jobs:
   deploy_frontend:
     runs-on: aws-ec2
 
