@@ -52,6 +52,7 @@ jobs:
         run: sudo docker rm -f striide-frontend-container || true
 
       # Step 3: Run Frontend Docker Container
+      - name: Run frontend Docker container
         env:
           NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
           NEXT_PUBLIC_MAPBOX_MAP_STYLE: ${{ secrets.NEXT_PUBLIC_MAPBOX_MAP_STYLE }}
