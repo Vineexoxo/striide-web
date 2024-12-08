@@ -1,0 +1,14 @@
+name: Test Backend Runner
+
+on:
+  workflow_dispatch
+
+jobs:
+  test-backend:
+    runs-on: aws-ec2-backend
+
+    steps:
+      - name: Check Runner Name
+        run: echo "Running on $(hostname)"
+      - name: Verify Docker
+        run: docker --version
