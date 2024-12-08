@@ -1,0 +1,43 @@
+name: CD Pipeline
+
+# Trigger only when the build flow is successful
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: self-hosted  # This means it will run on your self-hosted GitHub Actions runner
+
+    steps:
+      # Step 1: Pull Frontend Docker Image
+      - name: Pull Frontend Docker Image 
+        run: sudo docker pull vineexoxo/striide-frontend:latest
+
+      # Step 2: Delete old Frontend Docker Container (if exists)
+      - name: Delete old Frontend Docker Container
+        run: sudo docker rm -f striide-frontend-container || true
+
+      # Step 3: Run Frontend Docker Container
+      - name: Run Docker Container
+        env:
+          NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
+          NEXT_PUBLIC_MAPBOX_MAP_STYLE: ${{ secrets.NEXT_PUBLIC_MAPBOX_MAP_STYLE }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN: ${{ secrets.NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN }}
+          NEXT_PUBLIC_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_URL }}
+        run: |
+          sudo docker run -d \
+            --name striide-frontend-container \
+            -e NEXT_PUBLIC_MAPBOX_TOKEN=$NEXT_PUBLIC_MAPBOX_TOKEN \
+            -e NEXT_PUBLIC_MAPBOX_MAP_STYLE=$NEXT_PUBLIC_MAPBOX_MAP_STYLE \
+            -e NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+            -e NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN=$NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN \
+            -e NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL \
+            -p 8000:8080 vineexoxo/striide-frontend:latest
+
+      # Step 4: Clean up Docker images (optional)
+      - name: Clean up Docker images
+        run: sudo docker system prune -f
