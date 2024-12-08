@@ -27,12 +27,10 @@ jobs:
           ENV: ${{ secrets.ENV }}
           XATA_API_KEY: ${{ secrets.XATA_API_KEY }}
         run: |
-          sudo docker run -d \
-            --name striide-backend-container \
-            -p 8000:8080 \
-            -e ROCKET_DATABASES=$ROCKET_DATABASES \
-            -e ENV=$ENV \
-            -e XATA_API_KEY=$XATA_API_KEY \
+          docker run -p 8080:8080 \
+            -e ROCKET_DATABASES='{postgres={url="postgresql://cb2s42:xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3@us-east-1.sql.xata.sh/striide:main?sslmode=require", max_connections=1024}}' \
+            -e ENV='development' \
+            -e XATA_API_KEY='xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3' \
             vineexoxo/striide-backend:latest
 
       # Step 4: Clean up Docker images (optional)
@@ -73,3 +71,11 @@ jobs:
       # Step 4: Clean up Docker images 
       - name: Clean up Docker images
         run: sudo docker image prune -f
+
+          # sudo docker run -d \
+          #   --name striide-backend-container \
+          #   -p 8000:8080 \
+          #   -e ROCKET_DATABASES=$ROCKET_DATABASES \
+          #   -e ENV=$ENV \
+          #   -e XATA_API_KEY=$XATA_API_KEY \
+          #   vineexoxo/striide-backend:latest
