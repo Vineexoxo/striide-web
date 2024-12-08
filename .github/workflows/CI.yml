@@ -33,16 +33,18 @@ jobs:
     # Step 3: Build Docker image for Backend
     - name: Build Backend Docker image
       env:
-        ROCKET_DATABASES: ${{secrets.ROCKET_DATABASES}}
-        ENV: ${{secrets.ENV}}
-        XATA_API_KEY: ${{secrets.XATA_API_KEY}}
+        ROCKET_DATABASES: ${{ secrets.ROCKET_DATABASES }}
+        ENV: ${{ secrets.ENV }}
+        XATA_API_KEY: ${{ secrets.XATA_API_KEY }}
       run: |
         cd striide-backend
-        docker build \
+        docker buildx build \
           --build-arg ROCKET_DATABASES=$ROCKET_DATABASES \
           --build-arg ENV=$ENV \
           --build-arg XATA_API_KEY=$XATA_API_KEY \
-          -t vineexoxo/striide-backend:latest .
+          -t vineexoxo/striide-backend:latest \
+          .
+
 
     # Step 4: Push Docker image to Dockerhub
     - name: Push striide-backend to Dockerhub
