@@ -9,12 +9,12 @@ on:
 
 jobs:
   deploy_backend:
-    runs-on: self-hosted
+    runs-on: [aws-ec2-backend]
 
     steps:
       # Step 1: Pull Backend Docker Image
       - name: Pull Backend Docker Image
-        run: sudo docker pull vineexoxo/backend-frontend:latest
+        run: sudo docker pull vineexoxo/striide-backend:latest
 
       # Step 2: Delete old Backend Docker Container (if exists)
       - name: Delete old Backend Docker Container
@@ -40,7 +40,7 @@ jobs:
         run: sudo docker image prune -f
 
   deploy_frontend:
-    runs-on: aws-ec2
+    runs-on: [aws-ec2]
 
     steps:
       # Step 1: Pull Frontend Docker Image
