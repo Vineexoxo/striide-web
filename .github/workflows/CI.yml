@@ -6,9 +6,8 @@ on:
       - main # Trigger on push to main branch
 
 jobs:
-  build:
+  initialise:
     runs-on: ubuntu-latest
-
     steps:
     
     # Step 1: Checkout the code from GitHub
@@ -29,6 +28,10 @@ jobs:
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
 
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  
+  build_backend:
+      runs-on: ubuntu-latest
+      needs: initialise
 
     # Step 3: Build Docker image for Backend
     - name: Build Backend Docker image
@@ -44,6 +47,10 @@ jobs:
     - name: Push striide-backend to Dockerhub
       run: docker push vineexoxo/striide-backend:latest
 
+  build_frontend:
+    runs-on: ubuntu-latest
+    needs: initialise
+
     # Step 5: Build Docker image for Frontend
     - name: Build Frontend Docker image
       env:
@@ -58,6 +65,10 @@ jobs:
         cd striide-frontend
         docker build -t vineexoxo/striide-frontend:latest .
 
+  cleanup_images:
+    runs-on: ubuntu-latest
+    needs: build_frontend
+
     # Step 6: Push Docker image to Dockerhub
     - name: Push striide-frontend to Dockerhub
       run: docker push vineexoxo/striide-frontend:latest
@@ -68,6 +79,7 @@ jobs:
     #     docker-compose -f docker-compose.yml up -d
 
     # Step 7: Clean up Docker images
+    clean_images:
     - name: Clean up Docker images
       run: |
         docker system prune -f
