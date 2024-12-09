@@ -3,7 +3,7 @@ name: CICD Pipeline
 on:
   push:
     branches:
-      - main # Trigger on push to main branch
+      - terraform # Trigger on push to main branch
 
 jobs:
 
