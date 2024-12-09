@@ -2,10 +2,7 @@ version: '3.8'
 
 services:
   frontend:
-    image: react-frontend
-    build:
-      context: ./striide-frontend
-      dockerfile: Dockerfile # Dockerfile for your React frontend
+    image: vineexoxo/striide-frontend:latest
     ports:
       - "3000:3000"
     depends_on:
@@ -18,9 +15,7 @@ services:
       NEXT_PUBLIC_BACKEND_URL: "http://127.0.0.1:8000"
 
   backend:
-    image: striide-backend-image
-    build:
-      context: ./striide-backend
+    image: vineexoxo/striide-backend:latest
     environment:
       ROCKET_DATABASES: >
         {postgres={url="postgresql://cb2s42:xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3@us-east-1.sql.xata.sh/striide:main?sslmode=require", max_connections=1024}}
@@ -28,6 +23,7 @@ services:
       XATA_API_KEY: "xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3"
     ports:
       - "8000:8080"
+
   db:
     image: postgres
     restart: always
@@ -37,9 +33,3 @@ services:
       - POSTGRES_PASSWORD=xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3
     ports:
       - 5432:5432
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
