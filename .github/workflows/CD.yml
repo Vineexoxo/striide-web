@@ -1,6 +1,5 @@
 name: CD Pipeline
 
-# Trigger only when the build flow is successful
 on:
   workflow_run:
     workflows: ["CI Pipeline"]
