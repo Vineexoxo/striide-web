@@ -89,11 +89,10 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v2
 
-      # Step 3: Set up Docker Compose (if needed)
-      - name: Set up Docker Compose
+      # Step 3: Run Ansible playbook with inventory file for dockercompose
+      - name: Run Ansible playbook to set up ELK stack
         run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+          ansible-playbook -i inventory.ini setup_elk.yml
 
       # Step 4: Pull and start the ELK stack using Docker Compose
       - name: Start ELK stack
