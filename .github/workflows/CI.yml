@@ -1,0 +1,98 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main # Trigger on push to main branch
+
+jobs:
+  initialise:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout the code from GitHub
+      - name: Checkout code
+        uses: actions/checkout@v3
+  
+  build_backend:
+    runs-on: ubuntu-latest
+    needs: initialise
+    steps:
+      # Step 1: Checkout the code again in this job
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: login dockerhub
+      - name: Login Dockerhub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+      # Step 2: Build Docker image for Backend
+      - name: Build Backend Docker image
+        env:
+          ROCKET_DATABASES: ${{ secrets.ROCKET_DATABASES }}
+          ENV: ${{ secrets.ENV }}
+          XATA_API_KEY: ${{ secrets.XATA_API_KEY }}
+        run: |
+          cd striide-backend
+          docker build -t vineexoxo/striide-backend:latest .
+
+      # Step 3: Push Docker image to Dockerhub
+      - name: Push striide-backend to Dockerhub
+        run: docker push vineexoxo/striide-backend:latest
+
+  build_frontend:
+    runs-on: ubuntu-latest
+    needs: initialise
+    steps:
+      # Step 1: Checkout the code again in this job
+      - name: Checkout code
+        uses: actions/checkout@v3
+      # Step 2: login dockerhub
+      - name: Login Dockerhub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      # Step 2: Build Docker image for Frontend
+      - name: Build Frontend Docker image
+        env:
+          NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
+          NEXT_PUBLIC_MAPBOX_MAP_STYLE: ${{ secrets.NEXT_PUBLIC_MAPBOX_MAP_STYLE }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN: ${{ secrets.NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN }}
+          NEXT_PUBLIC_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_URL }}
+        run: |
+          cd striide-frontend
+          docker build -t vineexoxo/striide-frontend:latest .
+
+      # Step 3: Push Docker image to Dockerhub
+      - name: Push striide-frontend to Dockerhub
+        run: docker push vineexoxo/striide-frontend:latest
+
+  remove_backend_image:
+    runs-on: ubuntu-latest
+    needs: build_backend
+    steps:
+      # Step 1: Checkout the code again in this job
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Clean up Backend Docker image
+      - name: Clean up Docker images
+        run: |
+          docker rmi vineexoxo/striide-backend:latest || true
+
+  remove_frontend_image:
+    runs-on: ubuntu-latest
+    needs: build_frontend
+    steps:
+      # Step 1: Checkout the code again in this job
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Clean up Frontend Docker image
+      - name: Clean up Docker images
+        run: |
+          docker rmi vineexoxo/striide-frontend:latest || true
