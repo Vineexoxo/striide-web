@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy_backend:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       # Step 1: Pull Backend Docker Image
@@ -27,7 +27,9 @@ jobs:
           ENV: ${{ secrets.ENV }}
           XATA_API_KEY: ${{ secrets.XATA_API_KEY }}
         run: |
-          docker run -p 8000:8080 \
+          sudo docker run -d \
+            --name striide-backend-container \
+            -p 8000:8080 \
             -e ROCKET_DATABASES='{postgres={url="postgresql://cb2s42:xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3@us-east-1.sql.xata.sh/striide:main?sslmode=require", max_connections=1024}}' \
             -e ENV='development' \
             -e XATA_API_KEY='xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3' \
@@ -38,7 +40,8 @@ jobs:
         run: sudo docker image prune -f
 
   deploy_frontend:
-    runs-on: self-hosted
+    needs: deploy_backend
+    runs-on: ubuntu-latest
 
     steps:
       # Step 1: Pull Frontend Docker Image
@@ -71,6 +74,7 @@ jobs:
       # Step 4: Clean up Docker images 
       - name: Clean up Docker images
         run: sudo docker image prune -f
+
 
           # sudo docker run -d \
           #   --name striide-backend-container \
