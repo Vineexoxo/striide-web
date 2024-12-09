@@ -120,9 +120,6 @@ jobs:
             -e XATA_API_KEY='xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3' \
             vineexoxo/striide-backend:latest
 
-      # Step 4: Clean up Docker images (optional)
-      - name: Clean up Docker images
-        run: sudo docker image prune -f
 
   deploy_frontend:
     needs: deploy_backend
@@ -156,7 +153,3 @@ jobs:
             -p 3000:3000 \
             vineexoxo/striide-frontend:latest
 
-      # Step 4: Clean up Backend Docker image
-      - name: Clean up Docker images
-        run: |
-          docker rmi vineexoxo/striide-backendgit :latest || true
