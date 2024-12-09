@@ -31,8 +31,8 @@ jobs:
             --name striide-backend-container \
             -p 8000:8080 \
             -e ROCKET_DATABASES=$ROCKET_DATABASES \
-            -e ENV=$ENV \
-            -e XATA_API_KEY=$XATA_API_KEY \
+            -e ENV='development' \
+            -e XATA_API_KEY='xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3' \
             vineexoxo/striide-backend:latest
 
 
