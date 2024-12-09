@@ -34,7 +34,7 @@ jobs:
             -e XATA_API_KEY=$XATA_API_KEY \
             -p 8000:8080 \
             vineexoxo/striide-backend:latest
-
+  #w
 
       # Step 4: Clean up Docker images (optional)
       - name: Clean up Docker images
