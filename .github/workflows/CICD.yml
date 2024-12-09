@@ -156,6 +156,7 @@ jobs:
             -p 3000:3000 \
             vineexoxo/striide-frontend:latest
 
-      # Step 4: Clean up Docker images 
+      # Step 4: Clean up Backend Docker image
       - name: Clean up Docker images
-        run: docker rmi striide-frontend and backend
+        run: |
+          docker rmi vineexoxo/striide-backendgit :latest || true
