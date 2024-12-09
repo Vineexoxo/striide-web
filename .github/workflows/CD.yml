@@ -74,3 +74,30 @@ jobs:
       # Step 4: Clean up Docker images 
       - name: Clean up Docker images
         run: sudo docker image prune -f
+
+  start_ELK_STACK:
+    needs: 
+      - deploy_frontend
+      - deploy_backend
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Install Ansible
+      - name: Install Ansible
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+
+      # Step 3: Run Ansible playbook with inventory file
+      - name: Run Ansible playbook to set up ELK stack
+        run: |
+          ansible-playbook -i inventory.ini playbook.yml
+      
+      # Step 3: Pull and start ELK stack with Docker Compose
+      - name: Start ELK stack
+        run: |
+          docker-compose -f ./docker-compose.yml up -d
