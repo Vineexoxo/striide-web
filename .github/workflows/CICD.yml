@@ -48,7 +48,7 @@ jobs:
 
   build_frontend:
     runs-on: ubuntu-latest
-    needs: build_backend
+    needs: initialise
 
     steps:
         #check code
@@ -79,7 +79,7 @@ jobs:
 
 
   deploy_backend:
-    needs: remove_frontend_image
+    needs: build_backend
     runs-on: ubuntu-latest
 
     steps:
@@ -108,7 +108,7 @@ jobs:
 
 
   deploy_frontend:
-    needs: deploy_backend
+    needs: build_frontend
     runs-on: ubuntu-latest
 
     steps:
