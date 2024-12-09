@@ -86,13 +86,6 @@ jobs:
       # Step 1: Checkout the code from GitHub
       - name: Checkout code
         uses: actions/checkout@v3
-
-      # Step 2: login dockerhub
-      - name: Login Dockerhub
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   
   build_backend:
     runs-on: ubuntu-latest
@@ -101,6 +94,13 @@ jobs:
       # Step 1: Checkout the code again in this job
       - name: Checkout code
         uses: actions/checkout@v3
+
+      # Step 2: login dockerhub
+      - name: Login Dockerhub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
       # Step 2: Build Docker image for Backend
       - name: Build Backend Docker image
@@ -123,7 +123,12 @@ jobs:
       # Step 1: Checkout the code again in this job
       - name: Checkout code
         uses: actions/checkout@v3
-
+      # Step 2: login dockerhub
+      - name: Login Dockerhub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       # Step 2: Build Docker image for Frontend
       - name: Build Frontend Docker image
         env:
