@@ -154,7 +154,9 @@ jobs:
             vineexoxo/striide-frontend:latest
 
   start_ELK_STACK:
-    needs: deploy_frontend
+    needs: 
+      - deploy_frontend
+      - deploy_backend
     runs-on: ubuntu-latest
 
     steps:
