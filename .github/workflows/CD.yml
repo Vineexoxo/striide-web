@@ -92,7 +92,7 @@ jobs:
       # Step 3: Run Ansible playbook with inventory file for dockercompose
       - name: Run Ansible playbook to set up ELK stack
         run: |
-          ansible-playbook -i inventory.ini setup_elk.yml
+          ansible-playbook -i inventory.ini playbook.yml
 
       # Step 4: Pull and start the ELK stack using Docker Compose
       - name: Start ELK stack
