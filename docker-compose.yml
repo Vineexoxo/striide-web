@@ -1,45 +1,55 @@
-version: '3.8'
+version: '3.7'
 
 services:
-  frontend:
-    image: react-frontend
-    build:
-      context: ./striide-frontend
-      dockerfile: Dockerfile # Dockerfile for your React frontend
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
     ports:
-      - "3000:3000"
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - elk
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.14.0
+    container_name: logstash
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    ports:
+      - "6000:6000"
+      - "9600:9600"
+    networks:
+      - elk
     depends_on:
-      - backend
-    environment:
-      NEXT_PUBLIC_MAPBOX_TOKEN: "pk.eyJ1Ijoic3RyaWlkZSIsImEiOiJjbTQxaXh2ZmoyYzlwMmpxeno5YXR6cmxvIn0.pk3E4tHYcOWCNhuhwzNAiA"
-      NEXT_PUBLIC_MAPBOX_MAP_STYLE: "mapbox://styles/striide/clyorf2ms024e01p81gy3577s"
-      NEXT_PUBLIC_API_URL: "https://striide-45qob5kdnq-ue.a.run.app"
-      NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN: "56fb4ac0-34e4-46df-b6a9-a6c86eb68ec3"
-      NEXT_PUBLIC_BACKEND_URL: "http://127.0.0.1:8000"
+      - elasticsearch
 
-  backend:
-    image: striide-backend-image
-    build:
-      context: ./striide-backend
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.14.0
+    container_name: kibana
     environment:
-      ROCKET_DATABASES: >
-        {postgres={url="postgresql://cb2s42:xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3@us-east-1.sql.xata.sh/striide:main?sslmode=require", max_connections=1024}}
-      ENV: development
-      XATA_API_KEY: "xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3"
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
     ports:
-      - "8000:8080"
-  db:
-    image: postgres
-    restart: always
-    environment:
-      - POSTGRES_DB=stride
-      - POSTGRES_USER=cb2s42
-      - POSTGRES_PASSWORD=xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3
-    ports:
-      - 5432:5432
+      - "5601:5601"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+networks:
+  elk:
+    driver: bridge
+
+volumes:
+  esdata:
+    driver: local
