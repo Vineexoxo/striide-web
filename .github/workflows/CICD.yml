@@ -48,7 +48,7 @@ jobs:
 
   build_frontend:
     runs-on: ubuntu-latest
-    needs: remove_backend_image
+    needs: build_backend
 
     steps:
         #check code
