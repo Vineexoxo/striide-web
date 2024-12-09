@@ -78,4 +78,5 @@ jobs:
           #   -e ROCKET_DATABASES=$ROCKET_DATABASES \
           #   -e ENV=$ENV \
           #   -e XATA_API_KEY=$XATA_API_KEY \
+          #dummy
           #   vineexoxo/striide-backend:latest
