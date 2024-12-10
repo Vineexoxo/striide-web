@@ -6,7 +6,7 @@ log.setLevel(process.env.REACT_APP_LOG_LEVEL || "info");
 // Function to send logs to Logstash (via HTTP)
 const sendLogToLogstash = async (logMessage, level) => {
   try {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/log`, {  // Logstash URL (adjust the port if necessary)
+    await fetch('http://localhost:4001/api/log', {  // Logstash URL (adjust the port if necessary)
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

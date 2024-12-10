@@ -139,7 +139,7 @@ jobs:
             -p 3000:3000 \
             vineexoxo/striide-frontend:latest
 
-  start_ELK_STACK:
+  start_ELK_LOG_SERVER:
     needs: 
       - deploy_frontend
       - deploy_backend
@@ -162,7 +162,7 @@ jobs:
           ansible-playbook -i inventory.ini setup_elk.yml
       
       # Step 3: Pull and start ELK stack with Docker Compose
-      - name: Start ELK stack
+      - name: Start ELK stack and log server
         run: |
           docker-compose -f ./docker-compose.yml up -d
 

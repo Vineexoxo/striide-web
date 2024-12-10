@@ -43,8 +43,24 @@ services:
       - Elasticsearch  
     networks:
       - elk
+
+  logserver:
+    build: ./striide-log-server # Assuming the Dockerfile is in the ./log-server directory
+    container_name: logserver
+    ports:
+      - "4001:4001"   # Assuming your server runs on port 4001
+    environment:
+      - LOG_LEVEL=debug
+    networks:
+      - elk
+    depends_on:
+      - Logstash    # Ensure LogServer is up before Logstash starts
+    volumes:
+      - ./logs:/logs  # Mounts the host './logs' directory to '/logs' in the container
+
 volumes:
-  elastic_data: {}
+  elastic_data: {}  # Volume for Elasticsearch data
 
 networks:
   elk:
+    driver: bridge

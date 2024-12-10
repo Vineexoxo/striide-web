@@ -2,4 +2,8 @@ sudo firewall-cmd --add-port=9200/tcp --permanent
 sudo firewall-cmd --add-port=5601/tcp --permanent
 sudo firewall-cmd --add-port=9600/tcp --permanent
 sudo firewall-cmd --add-port=9300/tcp --permanent
+sudo firewall-cmd --add-port=3000/tcp --permanent
+sudo firewall-cmd --add-port=8000/tcp --permanent
+sudo firewall-cmd --add-port=5000/tcp --permanent
+
 sudo firewall-cmd --reload

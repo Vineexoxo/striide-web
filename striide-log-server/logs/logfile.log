@@ -1,0 +1,78 @@
+[2024-12-10T14:59:17.094Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-10T15:00:05.950Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-10T15:09:11.014Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-10T15:09:11.019Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-10T15:09:27.725Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-10T15:09:27.722Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-10T15:09:49.720Z] [info] Form submission started.
+[2024-12-10T15:09:49.721Z] [error] Form submission failed: Could not fetch IP address.
+[2024-12-10T15:09:49.723Z] [warn] Form submission failed: Missing required fields.
+[2024-12-10T15:10:01.214Z] [info] Form submission started.
+[2024-12-10T15:10:01.217Z] [warn] Form submission failed: Missing required fields.
+[2024-12-10T15:10:01.216Z] [error] Form submission failed: Could not fetch IP address.
+[2024-12-10T15:10:06.961Z] [info] Form submission started.
+[2024-12-10T15:10:06.962Z] [error] Form submission failed: Could not fetch IP address.
+[2024-12-10T15:10:06.963Z] [warn] Form submission failed: Missing required fields.
+[2024-12-10T15:10:18.779Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-10T15:10:18.781Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-10T15:10:50.175Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-10T15:10:50.181Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-10T15:17:21.572Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-10T15:17:21.574Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-10T15:17:31.558Z] [info] Form submission started.
+
+[2024-12-10T15:17:31.862Z] [info] Redirecting user to the onboarding page.
+[2024-12-10T15:17:31.863Z] [info] Form submission process ended.
+
+[2024-12-10T15:19:19.525Z] [info] Form data payload ready for submission: {
+  "email": "sjda2@aejnf.jafb",
+  "user_info": {
+    "city": "Bengaluru",
+    "state": "KA",
+    "occupation": "sda",
+    "gender": "Male",
+    "birthdate": "2024-12-04T00:00:00Z",
+    "phone_number": "",
+    "transport_modes": [
+      "Walking",
+      "Biking",
+      "PublicTransport",
+      "Driving"
+    ],
+    "commute_frequency": "Monthly",
+    "travel_time": "Evening",
+    "feed_type": "Exploring_Apps"
+  }
+}
+[2024-12-10T15:19:19.526Z] [error] Error submitting data: TypeError: Failed to fetch
+[2024-12-10T15:52:30.202Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-10T15:55:59.279Z] [info] Form submission started.
+[2024-12-10T15:55:59.644Z] [info] Form payload: {
+  "name": "sijd@adas.saa",
+  "email": "asda@awsd.asd",
+  "password": "sadsasd",
+  "ip": "122.172.85.66"
+}
+[2024-12-10T15:55:59.647Z] [info] Redirecting user to the onboarding page.
+[2024-12-10T15:55:59.650Z] [info] Form submission process ended.
+[2024-12-10T15:57:29.420Z] [info] Form data payload ready for submission: {
+  "email": "sda@awd.das",
+  "user_info": {
+    "city": "Bengaluru",
+    "state": "KA",
+    "occupation": "asdo",
+    "gender": "Male",
+    "birthdate": "2024-12-04T00:00:00Z",
+    "phone_number": "",
+    "transport_modes": [
+      "Biking",
+      "Driving",
+      "Walking",
+      "PublicTransport"
+    ],
+    "commute_frequency": "Monthly",
+    "travel_time": "Night",
+    "feed_type": "Other"
+  }
+}
+[2024-12-10T15:57:29.426Z] [error] Error submitting data: TypeError: Failed to fetch

@@ -83,7 +83,7 @@ const SignUpForm = () => {
             };
 
             // Log the JSON payload to the console
-            log.debug("Form payload:", JSON.stringify(payload, null, 2));
+            log.info("Form payload:", JSON.stringify(payload, null, 2));
             console.log("Payload:", JSON.stringify(payload, null, 2));
 
             // const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/register`, {

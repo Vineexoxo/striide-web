@@ -4,6 +4,29 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "../Button";
 import Link from "next/link";
+import log from 'loglevel';  // Import your log service
+
+// Function to handle log message when "Sign Up" button is clicked
+const handleSignUpClick = () => {
+    // Log the event (send log to console and to your log server if necessary)
+    log.info('Sign Up button clicked on the Welcome page');
+
+    // Optionally, you can send a log to your backend API (log server)
+    fetch('http://localhost:4001/api/log', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            message: 'Sign Up button clicked on the Welcome page',
+            level: 'info',
+            timestamp: new Date().toISOString(),
+        }),
+    }).catch((error) => {
+        console.error('Failed to send log:', error);
+    });
+};
+
 
 const WelcomePage = () => {
     return (
@@ -73,6 +96,8 @@ const WelcomePage = () => {
                 <Link
                     href="/user/signup"
                     className="flex w-full items-center justify-center"
+                    onClick={handleSignUpClick}  // Add the log when button is clicked
+
                 >
                     <Button variant="secondary" size="full" className="w-[80%]">
                         Sign Up
