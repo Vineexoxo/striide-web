@@ -79,7 +79,7 @@ jobs:
 
   build_logserver:
     runs-on: ubuntu-latest
-    needs: build_backend
+    needs: initialise
     steps:
       # Checkout code
       - name: Checkout code
@@ -108,7 +108,7 @@ jobs:
           docker rmi vineexoxo/striide-logserver:latest || true
   
   deploy_backend:
-    needs: build_logserver
+    needs: build_backend
     runs-on: ubuntu-latest
 
     steps:
@@ -136,7 +136,7 @@ jobs:
             vineexoxo/striide-backend:latest
 
   deploy_frontend:
-    needs: build_logserver
+    needs: build_frontend
     runs-on: ubuntu-latest
 
     steps:
