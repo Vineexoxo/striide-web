@@ -1,41 +1,28 @@
 import log from 'loglevel';
 
-// Set the logging level (default to "info")
-log.setLevel(process.env.REACT_APP_LOG_LEVEL || "info");
+// Save the original methodFactory
+const originalFactory = log.methodFactory;
 
-// Function to send logs to Logstash (via HTTP)
-const sendLogToLogstash = async (logMessage, level) => {
-  try {
-    await fetch('http://localhost:4001/api/log', {  // Logstash URL (adjust the port if necessary)
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: logMessage,
-        level: level,
-        timestamp: new Date().toISOString(),
-      }),
-    });
-  } catch (error) {
-    console.error("Failed to send log to Logstash", error);
-  }
+log.methodFactory = (methodName, logLevel, loggerName) => {
+    const originalMethod = originalFactory(methodName, logLevel, loggerName); // Use the saved original factory
+    return (...args) => {
+        originalMethod(...args); // Log to console
+
+        // Send log to the server
+        const message = args.join(' ');
+        fetch('http://localhost:4001/api/log', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                level: methodName,
+                message,
+                timestamp: new Date().toISOString(),
+            }),
+        }).catch((error) => console.error('Failed to send log:', error));
+    };
 };
 
-// Override the log method to send logs to Logstash
-const originalLog = log.methodFactory;
-log.methodFactory = (methodName, logLevel) => {
-  const originalMethod = originalLog(methodName, logLevel);
-
-  return (...args) => {
-    const message = args.join(" "); // Combine the arguments into a single log message
-
-    // Send logs to Logstash
-    sendLogToLogstash(message, methodName);
-
-    // Call the original log method (to still log to console)
-    originalMethod(...args);
-  };
-};
+// Set the desired log level
+log.setLevel('info');
 
 export default log;

@@ -37,7 +37,7 @@ app.use(cors({
 app.use(express.json());
 
 // Define log file path
-const logFilePath = path.join(__dirname, 'logs', 'logfile.log');
+const logFilePath = '/logs/logfile.log';
 
 // Function to write log to file
 const writeLogToFile = (logMessage) => {
@@ -47,19 +47,21 @@ const writeLogToFile = (logMessage) => {
     // Append the log entry to the log file
     fs.appendFile(logFilePath, logEntry, (err) => {
         if (err) {
-            console.error("Error writing log to file:", err);
-        }
+            console.error('Error writing to log file:', err);
+          } else {
+            console.log('Log entry written successfully.');
+          }
     });
 };
 
 // Endpoint to handle log data
 app.post('/api/log', (req, res) => {
     const { message, level } = req.body;
-
+    // Send response
+    
     // Write log to the file
     writeLogToFile(`[${level}] ${message}`);
 
-    // Send response
     res.status(200).send('Log received');
 });
 

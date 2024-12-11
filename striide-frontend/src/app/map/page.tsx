@@ -17,7 +17,7 @@ import { Button } from "@/components/Button";
 import { BASE_URL } from "@/lib/constants";
 import Geolocator from "@/components/Geolocator";
 import Link from "next/link";
-import log from "loglevel";
+import log from "@/logger";
 const MapOptions = {
     latitude: 42.362,
     longitude: -71.057,

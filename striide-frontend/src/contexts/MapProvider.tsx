@@ -4,7 +4,7 @@ import React, { useCallback, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-import log from "loglevel";
+import log from "@/logger";
 
 mapboxgl.accessToken = `${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`;
 

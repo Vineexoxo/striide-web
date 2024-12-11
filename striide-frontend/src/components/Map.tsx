@@ -11,7 +11,7 @@ import {
 import { useMap } from "@/contexts/MapProvider";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import log from "loglevel";
+import log from "@/logger";
 
 // import { sendGAEvent } from "@next/third-parties/google";
 import { BASE_URL, REFRESH_BUSINESS_INTERVAL } from "@/lib/constants";

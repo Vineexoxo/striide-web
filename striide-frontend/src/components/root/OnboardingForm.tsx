@@ -181,10 +181,10 @@ const OnboardingForm = () => {
             try {
                 const responseData = JSON.parse(responseText);
                 log.info("Parsed response data:", responseData);
-                console.log("Parsed response data:", responseData);
+                // console.log("Parsed response data:", responseData);
             } catch (parseError) {
                 log.error("Error parsing response as JSON: ", parseError);
-                console.error("Error parsing response as JSON: ", parseError);
+                // console.error("Error parsing response as JSON: ", parseError);
             }
 
             console.log("Data submitted successfully");
@@ -192,7 +192,7 @@ const OnboardingForm = () => {
             router.push('/map');
         } catch (error) {
             log.error("Error submitting data:", error);
-            console.error("Error submitting data:", error);
+            // console.error("Error submitting data:", error);
             // Handle error (e.g., show an error message to the user)
         }
         // router.push('/map');

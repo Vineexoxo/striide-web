@@ -8,7 +8,7 @@ import Link from "next/link";
 import Radio from "../Radio";
 import { useRouter } from "next/navigation";
 import { BASE_URL } from "../../lib/constants";
-import log from "@/logger";
+import log from 'loglevel'; 
 
 interface UserFormProps {
     title: string;
@@ -43,7 +43,6 @@ const SignUpForm = () => {
             log.debug("Fetched IP address:", data.ip);
             return data.ip;
         } catch (error) {
-            console.error("Failed to fetch IP address:", error);
             log.error("Failed to fetch IP address:", error);
             return null;
         }
@@ -57,20 +56,18 @@ const SignUpForm = () => {
 
         // Input validation
         if (!name || !email || !password) {
-            log.error("Form submission failed: Could not fetch IP address.");
+            // log.error("Form submission failed: Could not fetch IP address.");
             log.warn("Form submission failed: Missing required fields.");
             setErrorMessage("Please fill out all fields.");
             setIsLoading(false);
             return;
         }
-        // else{
-        //     router.push("/user/onboard");
-        // }
-
+      
         try {
             const ipAddress = await getIpAddress();
             if (!ipAddress) {
                 setErrorMessage("Failed to fetch IP address.");
+                log.error("Failed to fetch IP address.");
                 setIsLoading(false);
                 return;
             }
@@ -82,28 +79,10 @@ const SignUpForm = () => {
                 ip: ipAddress,
             };
 
-            // Log the JSON payload to the console
-            log.info("Form payload:", JSON.stringify(payload, null, 2));
-            console.log("Payload:", JSON.stringify(payload, null, 2));
-
-            // const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/register`, {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //     },
-            //     body: JSON.stringify(payload),
-            // });
-
-            // if (response.ok) {
-            //     router.push("/user/onboard");
-            // } else {
-            //     const errorData = await response.json();
-            //     if (response.status === 409) {
-            //         setErrorMessage("User already exists.");
-            //     } else {
-            //         setErrorMessage(errorData.message || "An error occurred.");
-            //     }
-            // }
+            log.info(`Form payload: ${JSON.stringify(payload, null, 2)}`)
+            // log.info('Sign Up button clicked on the Welcome page');
+            console.log("Payload:", JSON.stringify(payload, null, 2));  // For client-side debugging
+    
             log.info("Redirecting user to the onboarding page.");
             router.push("/user/onboard");
         } catch (error) {
@@ -114,6 +93,7 @@ const SignUpForm = () => {
         } finally {
             log.info("Form submission process ended.");
             setIsLoading(false);
+    
         }
     };
 

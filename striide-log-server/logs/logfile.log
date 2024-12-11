@@ -1,0 +1,101 @@
+[2024-12-11T14:54:03.947Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-11T15:10:03.429Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-11T15:10:12.561Z] [info] Form submission started.
+[2024-12-11T15:10:12.948Z] [info] Form payload: {
+  "name": "as@as.com",
+  "email": "as@as.com",
+  "password": "1231",
+  "ip": "122.172.85.66"
+}
+[2024-12-11T15:10:12.953Z] [info] Redirecting user to the onboarding page.
+[2024-12-11T15:10:12.970Z] [info] Form submission process ended.
+[2024-12-11T15:12:21.074Z] [warn] Form submission failed: Missing required fields or terms not confirmed.
+[2024-12-11T15:12:45.336Z] [warn] Form submission failed: Missing required fields or terms not confirmed.
+[2024-12-11T15:12:49.123Z] [warn] Form submission failed: Missing required fields or terms not confirmed.
+[2024-12-11T15:13:39.429Z] [info] Form data payload ready for submission: {
+  "email": "as",
+  "user_info": {
+    "city": "Bengaluru",
+    "state": "KA",
+    "occupation": "wd",
+    "gender": "Male",
+    "birthdate": "2024-12-17T00:00:00Z",
+    "phone_number": "",
+    "transport_modes": [
+      "Biking",
+      "Driving",
+      "PublicTransport",
+      "Walking"
+    ],
+    "commute_frequency": "Never",
+    "travel_time": "Evening",
+    "feed_type": "Other"
+  }
+}
+[2024-12-11T15:13:39.432Z] [error] Error submitting data: TypeError: Failed to fetch
+[2024-12-11T15:15:01.671Z] [info] Form data payload ready for submission: {
+  "email": "as",
+  "user_info": {
+    "city": "Bengaluru",
+    "state": "KA",
+    "occupation": "wd",
+    "gender": "Male",
+    "birthdate": "2024-12-17T00:00:00Z",
+    "phone_number": "",
+    "transport_modes": [
+      "Biking",
+      "Driving",
+      "PublicTransport",
+      "Walking"
+    ],
+    "commute_frequency": "Never",
+    "travel_time": "Evening",
+    "feed_type": "Other"
+  }
+}
+[2024-12-11T15:15:01.692Z] [error] Error submitting data: TypeError: Failed to fetch
+[2024-12-11T15:17:17.493Z] [info] Form data payload ready for submission: {
+  "email": "as",
+  "user_info": {
+    "city": "Bengaluru",
+    "state": "KA",
+    "occupation": "wd",
+    "gender": "Male",
+    "birthdate": "2024-12-17T00:00:00Z",
+    "phone_number": "",
+    "transport_modes": [
+      "Biking",
+      "Driving",
+      "PublicTransport",
+      "Walking"
+    ],
+    "commute_frequency": "Never",
+    "travel_time": "Evening",
+    "feed_type": "Other"
+  }
+}
+[2024-12-11T15:17:17.498Z] [error] Error submitting data: TypeError: Failed to fetch
+[2024-12-11T15:17:35.429Z] [warn] Form submission failed: Missing required fields or terms not confirmed.
+[2024-12-11T15:17:45.471Z] [warn] Form submission failed: Missing required fields or terms not confirmed.
+[2024-12-11T15:18:01.049Z] [warn] Form submission failed: Missing required fields or terms not confirmed.
+[2024-12-11T15:18:29.325Z] [info] Form data payload ready for submission: {
+  "email": "as@asd.ci",
+  "user_info": {
+    "city": "Bengalurua",
+    "state": "KA",
+    "occupation": "sa",
+    "gender": "Male",
+    "birthdate": "2024-12-04T00:00:00Z",
+    "phone_number": "",
+    "transport_modes": [
+      "PublicTransport",
+      "Biking",
+      "Driving",
+      "Walking"
+    ],
+    "commute_frequency": "Weekly",
+    "travel_time": "Evening",
+    "feed_type": "Other"
+  }
+}
+[2024-12-11T15:18:29.329Z] [error] Error submitting data: TypeError: Failed to fetch
