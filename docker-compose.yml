@@ -1,66 +1,111 @@
-version: '3.6'
+version: '3.3'
 services:
-  Elasticsearch:
-    image: elasticsearch:7.16.2
+  elasticsearch:
     container_name: elasticsearch
-    restart: always
-    volumes:
-    - elastic_data:/usr/share/elasticsearch/data/
+    image: elasticsearch:7.17.18
     environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
-      discovery.type: single-node    
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     ports:
-    - '9200:9200'
-    - '9300:9300'
-    networks:
-      - elk
+      - 9200:9200
+      - 9300:9300
+    stdin_open: true
+    tty: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "50"
 
-  Logstash:
-    image: logstash:7.16.2
-    container_name: logstash
-    restart: always
-    volumes:
-    - ./logstash/:/logstash_dir
-    command: logstash -f /logstash_dir/logstash.conf 
-    depends_on:
-      - Elasticsearch
-    ports:
-    - '9600:9600'
-    environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"    
-    networks:
-      - elk
 
-  Kibana:
-    image: kibana:7.16.2
+  kibana:
     container_name: kibana
-    restart: always       
+    image: kibana:7.17.18
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     ports:
-    - '5601:5601'
-    environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200  
+      - 5601:5601
     depends_on:
-      - Elasticsearch  
-    networks:
-      - elk
+      - elasticsearch
+    stdin_open: true
+    tty: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "50"
+
+
+  logstash:
+    container_name: logstash
+    image: logstash:7.17.18
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      # - ./logstash.template.json:/usr/share/logstash/templates/logstash.template.json
+    ports:
+      - 5044:5044
+    depends_on:
+      - elasticsearch
+    stdin_open: true
+    tty: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "50"
 
   logserver:
-    build: ./striide-log-server # Assuming the Dockerfile is in the ./log-server directory
     container_name: logserver
-    ports:
-      - "4001:4001"   # Assuming your server runs on port 4001
+    image: vineexoxo/striide-logserver:latest
     environment:
       - LOG_LEVEL=debug
-    networks:
-      - elk
-    depends_on:
-      - Logstash    # Ensure LogServer is up before Logstash starts
+    ports:
+      - 4001:4001
     volumes:
-      - ./logs:/logs  # Mounts the host './logs' directory to '/logs' in the container
+      - ./striide-log-server/logs:/logs
+    depends_on:
+      - logstash
+    stdin_open: true
+    tty: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "50"
 
-volumes:
-  elastic_data: {}  # Volume for Elasticsearch data
-
-networks:
-  elk:
-    driver: bridge
+        
+  filebeat:
+    user: root
+    container_name: filebeat
+    image: docker.elastic.co/beats/filebeat:7.17.18
+    depends_on:
+      - logstash
+      - logserver
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ./striide-log-server/logs:/usr/share/filebeat/mylog
+    command: ["--strict.perms=false"]
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    stdin_open: true
+    tty: true
+    deploy:
+      mode: global
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "50"

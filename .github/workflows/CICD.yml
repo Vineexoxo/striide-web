@@ -77,7 +77,36 @@ jobs:
         run: |
           docker rmi vineexoxo/striide-frontend:latest || true
 
+  build_logserver:
+    runs-on: ubuntu-latest
+    needs: build_backend
+    steps:
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
 
+      # Login to Docker Hub
+      - name: Login to Docker Hub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+      # Build logserver Docker image
+      - name: Build logserver Docker image
+        run: |
+          cd striide-log-server
+          docker build -t vineexoxo/striide-logserver:latest .
+
+      # Push logserver Docker image to Docker Hub
+      - name: Push logserver to Docker Hub
+        run: docker push vineexoxo/striide-logserver:latest
+
+      # Clean up Docker images
+      - name: Clean up Docker images
+        run: |
+          docker rmi vineexoxo/striide-logserver:latest || true
+  
   deploy_backend:
     needs: build_backend
     runs-on: ubuntu-latest
@@ -98,7 +127,7 @@ jobs:
           ENV: ${{ secrets.ENV }}
           XATA_API_KEY: ${{ secrets.XATA_API_KEY }}
         run: |
-          sudo docker run -d \
+          sudo docker run --rm -d \
             --name striide-backend-container \
             -p 8000:8080 \
             -e ROCKET_DATABASES='{postgres={url="postgresql://cb2s42:xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3@us-east-1.sql.xata.sh/striide:main?sslmode=require", max_connections=1024}}' \
@@ -129,7 +158,7 @@ jobs:
           NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN: '56fb4ac0-34e4-46df-b6a9-a6c86eb68ec3'
           NEXT_PUBLIC_BACKEND_URL: 'http://127.0.0.1:8000'
         run: |
-          sudo docker run -d \
+          sudo docker run --rm -d \
             --name striide-frontend-container \
             -e NEXT_PUBLIC_MAPBOX_TOKEN=$NEXT_PUBLIC_MAPBOX_TOKEN \
             -e NEXT_PUBLIC_MAPBOX_MAP_STYLE=$NEXT_PUBLIC_MAPBOX_MAP_STYLE \
@@ -143,6 +172,7 @@ jobs:
     needs: 
       - deploy_frontend
       - deploy_backend
+      - build_logserver
     runs-on: ubuntu-latest
 
     steps:
