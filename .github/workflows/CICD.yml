@@ -171,7 +171,7 @@ jobs:
   start_ELK_LOG_SERVER:
     needs: 
       - build_logserver
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       # Step 1: Checkout repository
