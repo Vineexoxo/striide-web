@@ -1,24 +1,4 @@
-// const express = require('express');
-// const cors = require('cors');  // Import CORS
-// const app = express();
-// const port = 4001;
 
-// // Use CORS to allow requests from the frontend on localhost:3000
-// app.use(cors({
-//     origin: 'http://localhost:3000',  // Allow only requests from this origin
-//     methods: ['GET', 'POST'],  // Allow GET and POST methods
-//     allowedHeaders: ['Content-Type'],  // Allow only specific headers
-// }));
-
-// app.post('/api/log', (req, res) => {
-//     // Handle your logging logic here
-//     console.log(req.body);
-//     res.status(200).send('Log received');
-// });
-
-// app.listen(port, () => {
-//     console.log(`Log server listening at http://localhost:${port}`);
-// });
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');  // Import fs to write logs to a file
@@ -40,9 +20,11 @@ app.use(express.json());
 const logFilePath = '/logs/logfile.log';
 
 // Function to write log to file
-const writeLogToFile = (logMessage) => {
-    const timestamp = new Date().toISOString();
-    const logEntry = `[${timestamp}] ${logMessage}\n`;  // Format log entry
+const writeLogToFile = (logMessage,level,timestamp) => {
+    const formattedMessage = logMessage.replace(/\n/g, ' ').replace(/\r/g, ' ');
+    // const logEntry = `[${timestamp}] ${logMessage}\n`;  // Format log entry
+    const logEntry = `[${timestamp}] [${level}] ${formattedMessage}\n`;
+
 
     // Append the log entry to the log file
     fs.appendFile(logFilePath, logEntry, (err) => {
@@ -54,13 +36,14 @@ const writeLogToFile = (logMessage) => {
     });
 };
 
+
 // Endpoint to handle log data
 app.post('/api/log', (req, res) => {
-    const { message, level } = req.body;
-    // Send response
-    
+    const { level, message, timestamp } = req.body;
+
     // Write log to the file
-    writeLogToFile(`[${level}] ${message}`);
+    writeLogToFile(message,level,timestamp);
+    // writeLogToFile(message, level, timestamp);
 
     res.status(200).send('Log received');
 });
