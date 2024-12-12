@@ -108,7 +108,7 @@ jobs:
           docker rmi vineexoxo/striide-logserver:latest || true
   
   deploy_backend:
-    needs: build_logserver
+    needs: build_backend
     runs-on: build_backend
 
     steps:
