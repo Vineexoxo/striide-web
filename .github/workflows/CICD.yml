@@ -172,7 +172,7 @@ jobs:
     needs: 
       - build_logserver
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       # Step 1: Checkout repository
