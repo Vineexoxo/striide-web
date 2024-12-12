@@ -170,8 +170,6 @@ jobs:
 
   start_ELK_LOG_SERVER:
     needs: 
-      - deploy_frontend
-      - deploy_backend
       - build_logserver
     runs-on: ubuntu-latest
 
