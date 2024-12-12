@@ -171,6 +171,7 @@ jobs:
   start_ELK_LOG_SERVER:
     needs: 
       - build_logserver
+
     runs-on: self-hosted
 
     steps:
@@ -215,6 +216,3 @@ jobs:
       - name: Start ELK stack and log server
         run: |
           docker-compose -f ./docker-compose.yml up -d
-
-
-#
