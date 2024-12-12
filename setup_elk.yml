@@ -1,13 +1,5 @@
 ---
-- hosts: localhost
-  become: yes
-  tasks:
-    # - name: Install Docker
-    #   apt:
-    #     name: docker.io
-    #     state: present
-
-    - name: Install Docker Compose
-      apt:
-        name: docker-compose
-        state: present
+- name: Set up ELK stack using Docker Compose
+  hosts: localhost
+  roles:
+    - setup_docker_compose

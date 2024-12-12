@@ -1,0 +1,5 @@
+---
+- name: Ensure Docker Compose is installed
+  ansible.builtin.package:
+    name: docker-compose
+    state: present

@@ -108,8 +108,8 @@ jobs:
           docker rmi vineexoxo/striide-logserver:latest || true
   
   deploy_backend:
-    needs: build_backend
-    runs-on: ubuntu-latest
+    needs: build_logserver
+    runs-on: build_backend
 
     steps:
       # Step 1: Pull Backend Docker Image
@@ -178,12 +178,34 @@ jobs:
       # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
-
+      
       # Step 2: Install Ansible
       - name: Install Ansible
         run: |
           sudo apt-get update
           sudo apt-get install -y ansible
+        
+      # Step 2: Delete old logserver Docker Container (if exists)
+      - name: Delete old logserver Docker Container
+        run: sudo docker rm -f logserver || true
+
+      # Step 2: Delete old filebeat Docker Container (if exists)
+      - name: Delete old filebeat Docker Container
+        run: sudo docker rm -f filebeat || true
+
+      # Step 2: Delete old kibana Docker Container (if exists)
+      - name: Delete old kibana Docker Container
+        run: sudo docker rm -f kibana || true
+
+      # Step 2: Delete old logstash Docker Container (if exists)
+      - name: Delete old logstash Docker Container
+        run: sudo docker rm -f logstash || true
+
+      # Step 2: Delete old elasticsearch Docker Container (if exists)
+      - name: Delete old elasticsearch Docker Container
+        run: sudo docker rm -f elasticsearch || true
+
+
 
       # Step 3: Run Ansible playbook with inventory file for dockercompose
       - name: Run Ansible playbook to set up ELK stack
