@@ -92,7 +92,17 @@ jobs:
           DOCKER_USERNAME: 'vineexoxo'
           DOCKER_PASSWORD: 'Dockerina1'
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          cd striide-log-server
+          npm install
 
+      # Run tests
+      - name: Testing
+        run: |
+          cd striide-log-server
+          npm test
       # Build logserver Docker image
       - name: Build logserver Docker image
         run: |
@@ -171,7 +181,7 @@ jobs:
   start_ELK_LOG_SERVER:
     needs: 
       - build_logserver
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       # Step 1: Checkout repository
@@ -215,4 +225,3 @@ jobs:
       - name: Start ELK stack and log server
         run: |
           docker-compose -f ./docker-compose.yml up -d
-          

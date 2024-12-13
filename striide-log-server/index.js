@@ -41,6 +41,9 @@ const writeLogToFile = (logMessage,level,timestamp) => {
 app.post('/api/log', (req, res) => {
     const { level, message, timestamp } = req.body;
 
+    if (!level || !message || !timestamp) {
+        return res.status(400).send('Missing required fields');
+    }
     // Write log to the file
     writeLogToFile(message,level,timestamp);
     // writeLogToFile(message, level, timestamp);
@@ -48,7 +51,9 @@ app.post('/api/log', (req, res) => {
     res.status(200).send('Log received');
 });
 
-app.listen(port, () => {
-    console.log(`Log server listening at http://localhost:${port}`);
-});
-
+if (require.main === module) {
+    app.listen(port, () => {
+        console.log(`Log server listening at http://localhost:${port}`);
+    });
+}
+module.exports = app;
