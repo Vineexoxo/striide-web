@@ -57,8 +57,8 @@ jobs:
 
       - name: Apply Kubernetes Deployment for Frontend
         run: |
-          kubectl apply -f frontend-deployment.yml
-          kubectl apply -f frontend-service.yml
+          kubectl apply -f ./frontend-deployment.yml
+          kubectl apply -f ./frontend-service.yml
 
       - name: Verify Deployment
         run: kubectl get pods
