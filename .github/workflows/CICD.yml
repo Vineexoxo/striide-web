@@ -148,7 +148,7 @@ jobs:
   #           vineexoxo/striide-backend:latest
 
   deploy_frontend:
-    needs: build_frontend
+    needs: initialise
     runs-on: self-hosted
 
     steps:
