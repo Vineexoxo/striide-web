@@ -154,11 +154,11 @@ jobs:
     steps:
       # Step 1: Pull Frontend Docker Image
       - name: Pull Frontend Docker Image
-        run: sudo docker pull vineexoxo/striide-frontend:latest
+        run:  docker pull vineexoxo/striide-frontend:latest
 
       # Step 2: Delete old Frontend Docker Container (if exists)
       - name: Delete old Frontend Docker Container
-        run: sudo docker rm -f striide-frontend-container || true
+        run: docker rm -f striide-frontend-container || true
 
       # Step 3: Run Frontend Docker Container
       - name: Run frontend Docker container
@@ -169,7 +169,7 @@ jobs:
           NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN: '56fb4ac0-34e4-46df-b6a9-a6c86eb68ec3'
           NEXT_PUBLIC_BACKEND_URL: 'http://127.0.0.1:8000'
         run: |
-          sudo docker run --rm -d \
+           docker run --rm -d \
             --name striide-frontend-container \
             -e NEXT_PUBLIC_MAPBOX_TOKEN=$NEXT_PUBLIC_MAPBOX_TOKEN \
             -e NEXT_PUBLIC_MAPBOX_MAP_STYLE=$NEXT_PUBLIC_MAPBOX_MAP_STYLE \
