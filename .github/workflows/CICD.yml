@@ -89,7 +89,7 @@ jobs:
       # Login to Docker Hub
       - name: Login to Docker Hub
         env:
-          DOCKER_USERNAME: "${{ secrets.DOCKER_PASSWORD }}" 
+          DOCKER_USERNAME: "${{ secrets.DOCKER_USERNAME }}" 
           DOCKER_PASSWORD: "${{ secrets.DOCKER_PASSWORD }}" 
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
@@ -148,7 +148,7 @@ jobs:
             vineexoxo/striide-backend:latest
 
   deploy_frontend:
-    needs: initialise
+    needs: build_frontend
     runs-on: ubuntu-latest
 
     steps:
@@ -192,8 +192,8 @@ jobs:
       # Step 2: Install Ansible
       - name: Install Ansible
         run: |
-            sudo apt-get update
-            sudo apt-get install -y ansible
+             apt-get update
+             apt-get install -y ansible
         
       # Step 2: Delete old logserver Docker Container (if exists)
       - name: Delete old logserver Docker Container
