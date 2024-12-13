@@ -37,7 +37,35 @@ jobs:
       # Step 4: Clean up Docker images (optional)
       - name: Clean up Docker images
         run: sudo docker image prune -f
+  deploy_frontend_to_kubernetes:
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.28.0'
+
+      - name: Install Minikube
+        run: |
+          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+      - name: Start Minikube
+        run: |
+          minikube start --driver=docker
+
+      - name: Apply Kubernetes Deployment for Frontend
+        run: |
+          kubectl apply -f frontend-deployment.yml
+          kubectl apply -f frontend-service.yml
+
+      - name: Verify Deployment
+        run: kubectl get pods
+
+      - name: Get Minikube Service URL
+        run: |
+          minikube service striide-frontend --url
   deploy_frontend:
     needs: deploy_backend
     runs-on: ubuntu-latest
