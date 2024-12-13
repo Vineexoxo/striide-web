@@ -10,7 +10,7 @@ log.methodFactory = (methodName, logLevel, loggerName) => {
 
         // Send log to the server
         const message = args.join(' ');
-        fetch('http://localhost:4001/api/log', {
+        fetch('https://a1b3-122-172-85-38.ngrok-free.app/api/log', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
