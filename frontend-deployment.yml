@@ -5,7 +5,7 @@ metadata:
   labels:
     app: striide-frontend
 spec:
-  replicas: 2
+  replicas: 1  # Defines the number of pods to run
   selector:
     matchLabels:
       app: striide-frontend
@@ -17,8 +17,13 @@ spec:
       containers:
         - name: striide-frontend
           image: vineexoxo/striide-frontend:latest
+          imagePullPolicy: Never
+          resources:
+            requests:
+              memory: "501Mi"  # The minimum memory requested
+              cpu: "500m"      # The minimum CPU requested
+            limits:
+              memory: "1Gi"  # The maximum memory limit
+              cpu: "1"         # The maximum CPU limit
           ports:
-            - containerPort: 3000
-          env:
-            - name: NEXT_PUBLIC_BACKEND_URL
-              value: "localhost:8080" # Update this URL as needed
+            - containerPort: 3000  # The port the container listens on
