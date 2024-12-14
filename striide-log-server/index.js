@@ -8,7 +8,7 @@ const port = 4001;
 
 // Use CORS to allow requests from the frontend on localhost:3000
 app.use(cors({
-    origin: 'http://localhost:3000',  // Allow only requests from this origin
+    // origin: 'http://localhost:3000',  // Allow only requests from this origin
     methods: ['GET', 'POST'],  // Allow GET and POST methods
     allowedHeaders: ['Content-Type'],  // Allow only specific headers
 }));
