@@ -234,3 +234,4 @@ jobs:
       - name: Start ELK stack and log server
         run: |
           docker-compose -f ./docker-compose.yml up -d
+          
