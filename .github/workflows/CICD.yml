@@ -192,7 +192,7 @@ jobs:
   start_ELK_LOG_SERVER:
     needs: 
       - build_logserver
-    runs-on: ubuntu-latest
+    runs-on: ["self-hosted","vinee"]
 
     steps:
       # Step 1: Checkout repository
@@ -234,4 +234,3 @@ jobs:
       - name: Start ELK stack and log server
         run: |
           docker-compose -f ./docker-compose.yml up -d
-#

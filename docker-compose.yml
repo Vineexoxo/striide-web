@@ -83,7 +83,6 @@ services:
       options:
         max-size: "10m"
         max-file: "50"
-
         
   filebeat:
     user: root
