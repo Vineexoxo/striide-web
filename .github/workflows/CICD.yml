@@ -121,7 +121,7 @@ jobs:
   
   deploy_backend:
     needs: build_backend
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       # Step 1: Pull Backend Docker Image
@@ -182,7 +182,7 @@ jobs:
   start_ELK_LOG_SERVER:
     needs: 
       - deploy_backend
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       # Step 1: Checkout repository

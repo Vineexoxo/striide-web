@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: striide-frontend
+  labels:
+    app: striide-frontend
+spec:
+  replicas: 1  # Defines the number of pods to run
+  selector:
+    matchLabels:
+      app: striide-frontend
+  template:
+    metadata:
+      labels:
+        app: striide-frontend
+    spec:
+      containers:
+        - name: striide-frontend
+          image: vineexoxo/striide-frontend:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "1Gi"  # The minimum memory requested
+              cpu: "500m"      # The minimum CPU requested
+            limits:
+              memory: "4Gi"  # The maximum memory limit
+              cpu: "4"         # The maximum CPU limit
+          ports:
+            - containerPort: 3000  # The port the container listens on
