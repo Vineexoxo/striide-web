@@ -149,7 +149,7 @@ jobs:
 
   deploy_frontend:
     needs: build_frontend
-    runs-on: self-hosted
+    runs-on: ["self-hosted","vinee"]
 
     steps:
           # Step 1: Checkout Repository
