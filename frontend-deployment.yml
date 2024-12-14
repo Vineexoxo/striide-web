@@ -17,7 +17,7 @@ spec:
       containers:
         - name: striide-frontend
           image: vineexoxo/striide-frontend:latest
-          imagePullPolicy: Never
+          imagePullPolicy: always
           resources:
             requests:
               memory: "501Mi"  # The minimum memory requested
