@@ -189,11 +189,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       
-      # # Step 2: Install Ansible
-      # - name: Install Ansible
-      #   run: |
-      #        apt-get update
-      #        apt-get install -y ansible
+      # Step 2: Install Ansible
+      - name: Install Ansible
+        run: |
+             apt-get update
+             apt-get install -y ansible
         
       # Step 2: Delete old logserver Docker Container (if exists)
       - name: Delete old logserver Docker Container
@@ -215,10 +215,10 @@ jobs:
       - name: Delete old elasticsearch Docker Container
         run:   docker rm -f elasticsearch || true
 
-      # # Step 3: Run Ansible playbook with inventory file for dockercompose
-      # - name: Run Ansible playbook to set up ELK stack
-      #   run: |
-      #     ansible-playbook -i inventory.ini setup_elk.yml
+      # Step 3: Run Ansible playbook with inventory file for dockercompose
+      - name: Run Ansible playbook to set up ELK stack
+        run: |
+          ansible-playbook -i inventory.ini setup_elk.yml
       
       # Step 3: Pull and start ELK stack with Docker Compose
       - name: Start ELK stack and log server
