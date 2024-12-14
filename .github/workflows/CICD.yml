@@ -121,7 +121,7 @@ jobs:
   
   deploy_backend:
     needs: build_backend
-    runs-on: ubuntu-latest
+    runs-on: ["self-hosted","vinee"]
 
     steps:
       # Step 1: Pull Backend Docker Image
@@ -192,7 +192,7 @@ jobs:
   start_ELK_LOG_SERVER:
     needs: 
       - build_logserver
-    runs-on: ["self-hosted","vinee"]
+    runs-on: ubuntu-latest
 
     steps:
       # Step 1: Checkout repository
