@@ -149,39 +149,49 @@ jobs:
 
   deploy_frontend:
     needs: build_frontend
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
-      # Step 1: Pull Frontend Docker Image
-      - name: Pull Frontend Docker Image
-        run:  docker pull vineexoxo/striide-frontend:latest
+          # Step 1: Checkout Repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      # Step 2: Delete old Frontend Docker Container (if exists)
-      - name: Delete old Frontend Docker Container
-        run: docker rm -f striide-frontend-container || true
+      - name: Apply Deployment Configuration
+        run: kubectl apply -f frontend-deployment.yaml
 
-      # Step 3: Run Frontend Docker Container
-      - name: Run frontend Docker container
-        env:
-          NEXT_PUBLIC_MAPBOX_TOKEN: "${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}" 
-          NEXT_PUBLIC_MAPBOX_MAP_STYLE: "${{ secrets.NEXT_PUBLIC_MAPBOX_MAP_STYLE }}" 
-          NEXT_PUBLIC_API_URL: "${{ secrets.NEXT_PUBLIC_API_URL }}" 
-          NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN: "${{ secrets.NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN }}" 
-          NEXT_PUBLIC_BACKEND_URL: "${{ secrets.NEXT_PUBLIC_BACKEND_URL }}" 
-        run: |
-           docker run --rm -d \
-            --name striide-frontend-container \
-            -e NEXT_PUBLIC_MAPBOX_TOKEN=$NEXT_PUBLIC_MAPBOX_TOKEN \
-            -e NEXT_PUBLIC_MAPBOX_MAP_STYLE=$NEXT_PUBLIC_MAPBOX_MAP_STYLE \
-            -e NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
-            -e NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN=$NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN \
-            -e NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL \
-            -p 3000:3000 \
-            vineexoxo/striide-frontend:latest
+      # Step 5: Rollout Restart Deployment
+      - name: Restart Kubernetes Deployment
+        run: kubectl rollout restart deployment/striide-frontend
+      # # Step 1: Pull Frontend Docker Image
+      # - name: Pull Frontend Docker Image
+      #   run:  docker pull vineexoxo/striide-frontend:latest
+
+      # # Step 2: Delete old Frontend Docker Container (if exists)
+      # - name: Delete old Frontend Docker Container
+      #   run: docker rm -f striide-frontend-container || true
+
+      # # Step 3: Run Frontend Docker Container
+      # - name: Run frontend Docker container
+      #   env:
+      #     NEXT_PUBLIC_MAPBOX_TOKEN: "${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}" 
+      #     NEXT_PUBLIC_MAPBOX_MAP_STYLE: "${{ secrets.NEXT_PUBLIC_MAPBOX_MAP_STYLE }}" 
+      #     NEXT_PUBLIC_API_URL: "${{ secrets.NEXT_PUBLIC_API_URL }}" 
+      #     NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN: "${{ secrets.NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN }}" 
+      #     NEXT_PUBLIC_BACKEND_URL: "${{ secrets.NEXT_PUBLIC_BACKEND_URL }}" 
+      #   run: |
+      #      docker run --rm -d \
+      #       --name striide-frontend-container \
+      #       -e NEXT_PUBLIC_MAPBOX_TOKEN=$NEXT_PUBLIC_MAPBOX_TOKEN \
+      #       -e NEXT_PUBLIC_MAPBOX_MAP_STYLE=$NEXT_PUBLIC_MAPBOX_MAP_STYLE \
+      #       -e NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+      #       -e NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN=$NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN \
+      #       -e NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL \
+      #       -p 3000:3000 \
+      #       vineexoxo/striide-frontend:latest
 
   start_ELK_LOG_SERVER:
     needs: 
-      - deploy_backend
+      - build_logserver
     runs-on: ubuntu-latest
 
     steps:
