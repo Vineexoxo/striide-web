@@ -192,8 +192,8 @@ jobs:
       # Step 2: Install Ansible
       - name: Install Ansible
         run: |
-             apt-get update
-             apt-get install -y ansible
+             sudo apt-get update
+             sudo apt-get install -y ansible
         
       # Step 2: Delete old logserver Docker Container (if exists)
       - name: Delete old logserver Docker Container
