@@ -121,7 +121,7 @@ jobs:
   
   deploy_backend:
     needs: build_backend
-    runs-on: ubuntu-latest
+    runs-on: ["self-hosted","vinee"]
 
     steps:
       # Step 1: Pull Backend Docker Image
@@ -192,18 +192,18 @@ jobs:
   start_ELK_LOG_SERVER:
     needs: 
       - build_logserver
-    runs-on: ["self-hosted","vinee"]
+    runs-on: ubuntu-latest
 
     steps:
       # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
       
-      # # Step 2: Install Ansible
-      # - name: Install Ansible
-      #   run: |
-      #        sudo apt-get update
-      #        sudo apt-get install -y ansible
+      # Step 2: Install Ansible
+      - name: Install Ansible
+        run: |
+             sudo apt-get update
+             sudo apt-get install -y ansible
         
       # Step 2: Delete old logserver Docker Container (if exists)
       - name: Delete old logserver Docker Container
@@ -225,10 +225,10 @@ jobs:
       - name: Delete old elasticsearch Docker Container
         run:   docker rm -f elasticsearch || true
 
-      # # Step 3: Run Ansible playbook with inventory file for dockercompose
-      # - name: Run Ansible playbook to set up ELK stack
-      #   run: |
-      #     ansible-playbook -i inventory.ini setup_elk.yml
+      # Step 3: Run Ansible playbook with inventory file for dockercompose
+      - name: Run Ansible playbook to set up ELK stack
+        run: |
+          ansible-playbook -i inventory.ini setup_elk.yml
       
       # Step 3: Pull and start ELK stack with Docker Compose
       - name: Start ELK stack and log server
