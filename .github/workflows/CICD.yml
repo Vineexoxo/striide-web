@@ -144,7 +144,7 @@ jobs:
             -p 8000:8080 \
             -e ROCKET_DATABASES='{postgres={url="postgresql://cb2s42:xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3@us-east-1.sql.xata.sh/striide:main?sslmode=require", max_connections=1024}}' \
             -e ENV='development' \
-            -e XATA_API_KEY='xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3'\
+            -e XATA_API_KEY='xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3' \
             vineexoxo/striide-backend:latest
 
   deploy_frontend:
