@@ -62,7 +62,7 @@ const WelcomePage = () => {
                         }}
                         className="italic"
                     >
-                        Priide
+                        Striide
 
                     </motion.span>
                 </div>
