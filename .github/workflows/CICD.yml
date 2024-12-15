@@ -147,21 +147,21 @@ jobs:
             -e XATA_API_KEY='xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3' \
             vineexoxo/striide-backend:latest
 
-  deploy_frontend:
-    needs: build_frontend
-    runs-on: ["self-hosted","vinee"]
+  # deploy_frontend:
+  #   needs: build_frontend
+  #   runs-on: ["self-hosted","vinee"]
 
-    steps:
-          # Step 1: Checkout Repository
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+  #   steps:
+  #         # Step 1: Checkout Repository
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@v3
 
-      - name: Apply Deployment Configuration
-        run: kubectl apply -f frontend-deployment.yaml
+  #     - name: Apply Deployment Configuration
+  #       run: kubectl apply -f frontend-deployment.yaml
 
-      # Step 5: Rollout Restart Deployment
-      - name: Restart Kubernetes Deployment
-        run: kubectl rollout restart deployment/striide-frontend
+  #     # Step 5: Rollout Restart Deployment
+  #     - name: Restart Kubernetes Deployment
+  #       run: kubectl rollout restart deployment/striide-frontend
       # # Step 1: Pull Frontend Docker Image
       # - name: Pull Frontend Docker Image
       #   run:  docker pull vineexoxo/striide-frontend:latest
