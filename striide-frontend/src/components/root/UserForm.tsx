@@ -87,11 +87,15 @@ const SignUpForm = () => {
                 body: JSON.stringify(payload),
             });
 
+            router.push("/check-email");
+
             const result = await response.json();
 
           // log.info(`Form payload: ${JSON.stringify(payload, null, 2)}`)
             // log.info('Sign Up button clicked on the Welcome page');
             console.log("Payload:", JSON.stringify(payload, null, 2));  // For client-side debugging
+
+            
     
             if (!result.ok) {
                 if (result.status === 409) {
@@ -100,13 +104,10 @@ const SignUpForm = () => {
                 }
                 // If response status is not OK (i.e., error code is not 2xx)
                 // Use the error message from the response body
-                else {
-                    // Default error message for other error codes
-                    setErrorMessage(result.error || "An unexpected error occurred.");
-                }            
+      
             } else {
                 // Redirect to onboarding page on successful signup
-                router.push("/user/onboard");
+                
             }
         } catch (error) {
           // log.error("An unexpected error occurred during form submission:", error);
