@@ -14,6 +14,13 @@ const OnboardingStepFive = ({
     handleReferralSourceChange: (referralSource: string) => void;
     onContinue: () => void;
 }) => {
+    const [selectedOption, setSelectedOption] = useState<string | null>(referralSource);
+
+    const handleOptionClick = (option: string) => {
+        setSelectedOption(option);
+        handleReferralSourceChange(option);
+    };
+
     return (
         <div className="mt-4">
             <h1 className="font-montserrat text-[20px] font-normal leading-[29.26px] text-left text-[#1F1926] mb-[30px]">
@@ -23,9 +30,9 @@ const OnboardingStepFive = ({
                 {options.map((option) => (
                     <button
                         key={option}
-                        onClick={() => handleReferralSourceChange(option)}
-                        className={`w-[323px] h-[48px] border border-[#6B18D8] rounded-[32px] flex items-center justify-center text-[#6B18D8] ${
-                            referralSource === option ? "bg-[#6B18D8] text-white" : ""
+                        onClick={() => handleOptionClick(option)}
+                        className={`w-[323px] h-[48px] border border-[#6B18D8] rounded-[32px] flex items-center justify-center ${
+                            selectedOption === option ? "bg-[#6B18D8] text-white" : "text-[#6B18D8]"
                         }`}
                     >
                         {option}
@@ -40,6 +47,5 @@ const OnboardingStepFive = ({
         </div>
     );
 };
-
 
 export default OnboardingStepFive;
