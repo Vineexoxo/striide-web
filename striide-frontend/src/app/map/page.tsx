@@ -17,7 +17,7 @@ import { Button } from "@/components/Button";
 import { BASE_URL } from "@/lib/constants";
 import Geolocator from "@/components/Geolocator";
 import Link from "next/link";
-
+import log from "@/logger";
 const MapOptions = {
     latitude: 42.362,
     longitude: -71.057,
@@ -57,14 +57,24 @@ const getMapboxSuggestions = (
     params: URLSearchParams,
 ): Promise<Suggestion[]> => {
     const url = `https://api.mapbox.com/search/searchbox/v1/suggest?${params.toString()}`;
+    // log.info("Fetching suggestions from Mapbox API", { url, params: params.toString() }); // Log the URL and params
+
     return fetch(url, {
         headers: {
             method: "GET",
             "Content-Type": "application/json",
         },
     })
-        .then((response) => response.json())
+        .then((response) => {
+            // log.info("Received response from Mapbox API", {
+            //     status: response.status,
+            //     statusText: response.statusText,
+            // }); // Log the response status and text
+            return response.json();
+        })
         .then((data) => {
+            // log.debug("Mapbox API response data", data); // Log the raw response data
+
             let suggestions: Suggestion[] =
                 data?.suggestions.map((suggestion: Suggestion) => {
                     return {
@@ -75,6 +85,7 @@ const getMapboxSuggestions = (
                 }) ?? [];
 
             if (suggestions.length === 0) {
+                // log.warn("No suggestions found, returning default suggestion");
                 suggestions = [
                     {
                         name: "",
@@ -83,10 +94,12 @@ const getMapboxSuggestions = (
                     },
                 ];
             }
-
+            // log.info("Suggestions returned", suggestions); // Log the final suggestions array
             return suggestions;
         })
         .catch((err) => {
+            // log.error("Error fetching Mapbox suggestions", err); // Log any errors
+
             throw new Error(err);
         });
 };
@@ -133,6 +146,8 @@ const FeedbackModal = ({ message }: { message: string }) => (
 
 const getMapboxFeatures = (params: URLSearchParams, id: string) => {
     const url = `https://api.mapbox.com/search/searchbox/v1/retrieve/${id}?${params.toString()}`;
+    // log.info("Fetching mapbox features from URL:", url);
+
 
     return fetch(url, {
         headers: {
@@ -140,11 +155,22 @@ const getMapboxFeatures = (params: URLSearchParams, id: string) => {
             "Content-Type": "application/json",
         },
     })
-        .then((res) => res.json())
-        .then((data) => data)
-        .catch((err) => {
-            throw new Error(err);
-        });
+    .then((res) => {
+        // Log response status
+        // log.info("Received response with status:", res.status);
+        return res.json();
+    })
+    .then((data) => {
+        // Log the data received from the API
+        // log.info("Mapbox features retrieved successfully:", data);
+        return data;
+    })
+    .catch((err) => {
+        // Log the error that occurred
+        // log.error("Error fetching mapbox features:", err);
+        throw new Error(err);
+    });
+
 };
 
 export default function MapPage() {
@@ -155,6 +181,8 @@ export default function MapPage() {
     const searchParams = useSearchParams();
 
     const showFeedback = (message: string) => {
+        // log.info("Displaying feedback:", message); // Log feedback display
+
         setFeedbackMessage(message);
         setShowFeedbackModal(true);
         const timer = setTimeout(() => {
@@ -207,13 +235,30 @@ export default function MapPage() {
     const [geolocatorCoords, setGeolocatorCoords] = useState<number[]>([]);
     const [reports, setReports] = useState([]);
 
+    // useEffect(() => {
+    //   // log.info("Fetching reports..."); // Log when reports are being fetched
+
+    //     const get_reports = async () => {
+    //         fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/report_ids`).then((res) => {
+    //             res.json().then((data) => {
+    //                 setReports(data.body.reports);
+    //             });
+    //         });
+    //     };
+    //     get_reports();
+    // }, []);
+
     useEffect(() => {
+        // log.info("Fetching reports..."); // Log when reports are being fetched
         const get_reports = async () => {
-            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/report_ids`).then((res) => {
-                res.json().then((data) => {
-                    setReports(data.body.reports);
-                });
-            });
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/report_ids`);
+                const data = await res.json();
+                setReports(data.body.reports);
+                // log.info("Fetched reports successfully:", data.body.reports); // Log successful data fetch
+            } catch (error) {
+                // log.error("Error fetching reports:", error); // Log error if fetching fails
+            }
         };
         get_reports();
     }, []);
@@ -235,14 +280,22 @@ export default function MapPage() {
             });
 
             // todo: figure out the type of the promise
-            const suggestions: any = await getMapboxSuggestions(params)
-                .then((val) => val)
-                .catch((err) => {
-                    console.log(err);
-                    return [];
-                });
+            try{
+                // log.info("Fetching Mapbox suggestions for:", originSearchValue);
 
-            setOriginSuggestions(suggestions);
+                const suggestions: any = await getMapboxSuggestions(params)
+                    .then((val) => val)
+                    .catch((err) => {
+                        console.log(err);
+                        return [];
+                    });
+                    setOriginSuggestions(suggestions);
+                }catch(err){
+                    // log.error("Error fetching Mapbox suggestions:", err);
+                    setOriginSuggestions([]); // Set empty list on error
+                }
+
+            
         }, debounce_time_factor);
 
         return () => clearTimeout(timeOut);

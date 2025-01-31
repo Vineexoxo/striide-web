@@ -8,6 +8,7 @@ import OnboardingStepFour from "./OnboardingStepFour";
 import OnboardingStepFive from "./OnboardingStepFive";
 import OnboardingStepSix from "./OnboardingStepSix";
 import { useRouter } from 'next/navigation';
+import log from "@/logger";
 
 
 type FormFields = {
@@ -45,11 +46,14 @@ const OnboardingForm = () => {
     });
 
     const handleContinue = () => {
+        // log.debug("Step", step, "Continuing to next step");
         setStep((prevStep) => prevStep + 1);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
+        // log.debug(`Form field changed: ${name} = ${value}`);
+        console.log("alskeaos");
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -57,6 +61,7 @@ const OnboardingForm = () => {
     };
 
     const handleGenderChange = (gender: string) => {
+        // log.debug("Gender selection changed to:", gender);
         const genderMap: { [key: string]: string } = {
             "Man": "Male",
             "Woman": "Female",
@@ -71,6 +76,8 @@ const OnboardingForm = () => {
     };
 
     const handleCheckboxChange = () => {
+        // log.debug("Checkbox for confirmation changed:", !formData.isConfirmed);
+
         setFormData((prevData) => ({
             ...prevData,
             isConfirmed: !prevData.isConfirmed,
@@ -78,6 +85,8 @@ const OnboardingForm = () => {
     };
 
     const handleTransportationChange = (option: string) => {
+        // log.debug("Transportation option selected:", option);
+
         setFormData((prevData) => {
             const transportation = prevData.transportation.includes(option)
                 ? prevData.transportation.filter((opt) => opt !== option)
@@ -88,6 +97,8 @@ const OnboardingForm = () => {
     };
 
     const handleFrequencyChange = (frequency: string) => {
+        // log.debug("Frequency selected:", frequency);
+
         setFormData((prevData) => ({
             ...prevData,
             frequency: frequency.charAt(0).toUpperCase() + frequency.slice(1),
@@ -95,6 +106,8 @@ const OnboardingForm = () => {
     };
 
     const handleTravelTimesChange = (option: string) => {
+        // log.debug("Travel time option selected:", option);
+
         setFormData((prevData) => {
             const travelTimes = prevData.travelTimes.includes(option)
                 ? prevData.travelTimes.filter((opt) => opt !== option)
@@ -104,6 +117,8 @@ const OnboardingForm = () => {
     };
 
     const handleReferralSourceChange = (referralSource: string) => {
+        // log.debug("Referral source changed to:", referralSource);
+
         const sourceMap: { [key: string]: string } = {
             "Social Media": "Social_media",
             "Friends / Family": "Friends_Family",
@@ -131,13 +146,16 @@ const OnboardingForm = () => {
                 commute_frequency: formData.frequency,
                 travel_time: formData.travelTimes[0],
                 feed_type: formData.referralSource,
+                onboard: true
             },
         };
 
         console.log("Payload:", JSON.stringify(payload, null, 2));
+      // log.info("Form data payload ready for submission:", JSON.stringify(payload, null, 2));
+
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/entry`, {
+            const response = await fetch("/api/entry", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -150,22 +168,32 @@ const OnboardingForm = () => {
             console.log("Response headers:", response.headers);
             console.log("Response body:", responseText);
 
+            //logs
+          // log.info("Response received from server:");
+          // log.debug("Status:", response.status);
+          // log.debug("Headers:", response.headers);
+          // log.debug("Response Body:", responseText);
+
+
             if (!response.ok) {
                 throw new Error(`Failed to submit data: ${response.status} ${response.statusText}`);
             }
 
             try {
                 const responseData = JSON.parse(responseText);
-                console.log("Parsed response data:", responseData);
+              // log.info("Parsed response data:", responseData);
+                // console.log("Parsed response data:", responseData);
             } catch (parseError) {
-                console.error("Error parsing response as JSON: ", parseError);
+              // log.error("Error parsing response as JSON: ", parseError);
+                // console.error("Error parsing response as JSON: ", parseError);
             }
 
             console.log("Data submitted successfully");
             // Redirect to the map page
             router.push('/map');
         } catch (error) {
-            console.error("Error submitting data:", error);
+          // log.error("Error submitting data:", error);
+            // console.error("Error submitting data:", error);
             // Handle error (e.g., show an error message to the user)
         }
         // router.push('/map');

@@ -5,6 +5,7 @@ import Radio from "@/components/Radio";
 import Checkbox from "@/components/Checkbox";
 import { Button } from "../Button";
 import Image from "next/image";
+import log from "@/logger";
 
 type FormFields = {
     email: string;
@@ -46,9 +47,10 @@ const OnboardingStepOne = ({
 
         if (!isFormValid) {
             alert("Please fill in all fields and confirm the terms to continue.");
+          // log.warn("Form submission failed: Missing required fields or terms not confirmed.");
+
             return;
         }
-        console.log();
         onContinue();
     };
 

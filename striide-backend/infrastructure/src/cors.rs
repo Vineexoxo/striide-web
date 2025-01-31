@@ -14,14 +14,16 @@ impl Fairing for CORS {
     }
 
     async fn on_response<'r>(&self, request: &'r Request<'_>, response: &mut Response<'r>) {
-        let environment = std::env::var("ENV").unwrap_or("development".to_string());
-        let origin = match environment.as_str() {
-            "development" => "http://localhost:3000",
-            "production" => "https://www.striide.co",
-            _ => "",
-        };
+        // let environment = std::env::var("ENV").unwrap_or("development".to_string());
+        // let origin = match environment.as_str() {
+        //     "development" => "http://localhost:3000",
+        //     "production" => "https://www.striide.co",
+        //     _ => "",
+        // };
 
-        response.set_header(Header::new("Access-Control-Allow-Origin", origin));
+        // response.set_header(Header::new("Access-Control-Allow-Origin", origin));
+        response.set_header(Header::new("Access-Control-Allow-Origin", "*"));
+
         response.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
         response.set_header(Header::new(
             "Access-Control-Allow-Methods",

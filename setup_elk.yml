@@ -1,0 +1,5 @@
+---
+- name: Set up ELK stack using Docker Compose
+  hosts: localhost
+  roles:
+    - setup_docker_compose

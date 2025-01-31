@@ -8,6 +8,7 @@ import Link from "next/link";
 import Radio from "../Radio";
 import { useRouter } from "next/navigation";
 import { BASE_URL } from "../../lib/constants";
+import log from 'loglevel'; 
 
 interface UserFormProps {
     title: string;
@@ -27,212 +28,9 @@ const Glass = ({ title, children }: UserFormProps) => {
     );
 };
 
-// const SignUpForm = () => {
-//     const router = useRouter();
-//     const [name, setName] = useState("");
-//     const [email, setEmail] = useState("");
-//     const [password, setPassword] = useState("");
-//     const [isLoading, setIsLoading] = useState(false);
-
-//     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//         // e.preventDefault();
-//         // setIsLoading(true);
-//         // const response = await fetch(`${BASE_URL}/user/api/auth/register`, {
-//         //     method: "POST",
-//         //     headers: {
-//         //         "Content-Type": "application/json",
-//         //     },
-//         //     /* sending these info fields might be a bit unsecure to use in production */
-//         //     body: JSON.stringify({
-//         //         email: email,
-//         //         password: password,
-//         //         name: name,
-//         //     }),
-//         // });
-//         // const data = await response.json();
-//         // console.log(data);
-//         if (true) {
-//             router.push("/user/onboard");
-//         } else {
-//             setIsLoading(false);
-//         }
-//     };
-
-//     return (
-//         <Glass title="Create an Account">
-//             <form
-//                 onSubmit={handleSubmit}
-//                 className="flex w-full flex-col gap-[49px]"
-//             >
-//                 <div className="flex w-full flex-col gap-[20px]">
-//                     <Input
-//                         type="text"
-//                         value={name}
-//                         onChange={(e) => setName(e.target.value)}
-//                         placeholder="Full name"
-//                         variant={"default"}
-//                         size={"full"}
-//                     />
-//                     <Input
-//                         type="email"
-//                         value={email}
-//                         onChange={(e) => setEmail(e.target.value)}
-//                         placeholder="Email address"
-//                         variant={"default"}
-//                         size={"full"}
-//                     />
-//                     <Input
-//                         type="password"
-//                         value={password}
-//                         onChange={(e) => setPassword(e.target.value)}
-//                         placeholder="Create password"
-//                         variant={"default"}
-//                         size={"full"}
-//                     />
-//                 </div>
-//                 <Button
-//                     type="submit"
-//                     size={"full"}
-//                     className="font-semibold"
-//                     isLoading={isLoading}
-//                 >
-//                     Sign up
-//                 </Button>
-//             </form>
-//             <div className="font-inter flex justify-center gap-[5px] text-[16px] leading-[20px]">
-//                 <h3 className="font-light">Already have an account?</h3>
-//                 <Link
-//                     href="../user/login"
-//                     className="text-primary-orange font-bold"
-//                 >
-//                     Log in
-//                 </Link>
-//             </div>
-//         </Glass>
-//     );
-// };
-// const SignUpForm = () => {
-//     const router = useRouter();
-//     const [name, setName] = useState("");
-//     const [email, setEmail] = useState("");
-//     const [password, setPassword] = useState("");
-//     const [isLoading, setIsLoading] = useState(false);
-//     const [errorMessage, setErrorMessage] = useState("");
-//     const getIpAddress = async (): Promise<string | null> => {
-//         try {
-//             const response = await fetch("https://api.ipify.org?format=json");
-//             const data = await response.json();
-//             return data.ip;
-//         } catch (error) {
-//             console.error("Failed to fetch IP address:", error);
-//             return null;
-//         }
-//     };
-//     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//         e.preventDefault(); // Prevent form default submission behavior
-//         setIsLoading(true);
-//         setErrorMessage("");
-        
-//         try {
-//             const ipAddress = await getIpAddress();
-//             if (!ipAddress) {
-//                 setErrorMessage("Failed to fetch IP address");
-//                 setIsLoading(false);
-//                 return;
-//             }
-//             const payload = {
-//                 name,
-//                 email,
-//                 password,
-//                 ip: ipAddress,
-//             };
-    
-//             // Log the JSON payload to the console
-//             console.log("Payload:", JSON.stringify(payload, null, 2));
-//             const response = await fetch("/api/register", {
-//                 method: "POST",
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                 },
-//                 body: JSON.stringify({
-//                     name,
-//                     email,
-//                     password,
-//                     ip: ipAddress,
-//                 }),
-//             });
-
-//             if (response.ok) {
-//                 router.push("/user/onboard");
-//             } else {
-//                 const errorData = await response.json();
-//                 setErrorMessage(errorData.message || "An error occurred");
-//             }
-//         } catch (error) {
-//             setErrorMessage("An unexpected error occurred");
-//             console.error(error);
-//         } finally {
-//             setIsLoading(false);
-//         }
-//     };
-
-
-//     return (
-//         <Glass title="Create an Account">
-//             <form
-//                 onSubmit={handleSubmit}
-//                 className="flex w-full flex-col gap-[49px]"
-//             >
-//                 <div className="flex w-full flex-col gap-[20px]">
-//                     <Input
-//                         type="text"
-//                         value={name}
-//                         onChange={(e) => setName(e.target.value)}
-//                         placeholder="Full name"
-//                         variant={"default"}
-//                         size={"full"}
-//                     />
-//                     <Input
-//                         type="email"
-//                         value={email}
-//                         onChange={(e) => setEmail(e.target.value)}
-//                         placeholder="Email address"
-//                         variant={"default"}
-//                         size={"full"}
-//                     />
-//                     <Input
-//                         type="password"
-//                         value={password}
-//                         onChange={(e) => setPassword(e.target.value)}
-//                         placeholder="Create password"
-//                         variant={"default"}
-//                         size={"full"}
-//                     />
-//                 </div>
-//                 <Button
-//                     type="submit"
-//                     size={"full"}
-//                     className="font-semibold"
-//                     isLoading={isLoading}
-//                 >
-//                     Sign up
-//                 </Button>
-//             </form>
-//             <div className="font-inter flex justify-center gap-[5px] text-[16px] leading-[20px]">
-//                 <h3 className="font-light">Already have an account?</h3>
-//                 <Link
-//                     href="../user/login"
-//                     className="text-primary-orange font-bold"
-//                 >
-//                     Log in
-//                 </Link>
-//             </div>
-//         </Glass>
-//     );
-// };
 const SignUpForm = () => {
     const router = useRouter();
-    const [name, setName] = useState("");
+    const [username, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -242,70 +40,83 @@ const SignUpForm = () => {
         try {
             const response = await fetch("https://api.ipify.org?format=json");
             const data = await response.json();
+          // log.debug("Fetched IP address:", data.ip);
             return data.ip;
         } catch (error) {
-            console.error("Failed to fetch IP address:", error);
+          // log.error("Failed to fetch IP address:", error);
             return null;
         }
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+      // log.info("Form submission started.");
         setIsLoading(true);
         setErrorMessage("");
 
         // Input validation
-        if (!name || !email || !password) {
+        if (!username || !email || !password) {
+            // log.error("Form submission failed: Could not fetch IP address.");
+          // log.warn("Form submission failed: Missing required fields.");
             setErrorMessage("Please fill out all fields.");
             setIsLoading(false);
             return;
         }
-        // else{
-        //     router.push("/user/onboard");
-        // }
-
+      
         try {
             const ipAddress = await getIpAddress();
             if (!ipAddress) {
                 setErrorMessage("Failed to fetch IP address.");
+              // log.error("Failed to fetch IP address.");
                 setIsLoading(false);
                 return;
             }
 
             const payload = {
-                name,
+                username,
                 email,
                 password,
                 ip: ipAddress,
             };
+            // Send the payload to the `/api/auth/register` route
+            const response = await fetch("/api/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
 
-            // Log the JSON payload to the console
-            console.log("Payload:", JSON.stringify(payload, null, 2));
+            const result = await response.json();
 
-            // const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/register`, {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //     },
-            //     body: JSON.stringify(payload),
-            // });
-
-            // if (response.ok) {
-            //     router.push("/user/onboard");
-            // } else {
-            //     const errorData = await response.json();
-            //     if (response.status === 409) {
-            //         setErrorMessage("User already exists.");
-            //     } else {
-            //         setErrorMessage(errorData.message || "An error occurred.");
-            //     }
-            // }
-            router.push("/user/onboard");
+          // log.info(`Form payload: ${JSON.stringify(payload, null, 2)}`)
+            // log.info('Sign Up button clicked on the Welcome page');
+            console.log("Payload:", JSON.stringify(payload, null, 2));  // For client-side debugging
+    
+            if (!result.ok) {
+                if (result.status === 409) {
+                    // Handle the case where the email already exists
+                    setErrorMessage("Email already exists. Please log in.");
+                }
+                // If response status is not OK (i.e., error code is not 2xx)
+                // Use the error message from the response body
+                else {
+                    // Default error message for other error codes
+                    setErrorMessage(result.error || "An unexpected error occurred.");
+                }            
+            } else {
+                // Redirect to onboarding page on successful signup
+                router.push("/user/onboard");
+            }
         } catch (error) {
+          // log.error("An unexpected error occurred during form submission:", error);
+
             setErrorMessage("An unexpected error occurred.");
             console.error(error);
         } finally {
+          // log.info("Form submission process ended.");
             setIsLoading(false);
+    
         }
     };
 
@@ -318,7 +129,7 @@ const SignUpForm = () => {
                 <div className="flex w-full flex-col gap-[20px]">
                     <Input
                         type="text"
-                        value={name}
+                        value={username}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Full name"
                         variant={"default"}
@@ -374,28 +185,94 @@ const LogInForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        // e.preventDefault();
-        // setIsLoading(true);
-        // const response = await fetch("/api/auth/login", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     /* sending these info fields might be a bit unsecure to use in production */
-        //     body: JSON.stringify({
-        //         email: email,
-        //         password: password,
-        //     }),
-        // });
-        // const data = await response.json();
-        if (true) {
-            router.push("/map");
-        } else {
-            setIsLoading(false);
+    const getIpAddress = async (): Promise<string | null> => {
+        try {
+            const response = await fetch("https://api.ipify.org?format=json");
+            const data = await response.json();
+          // log.debug("Fetched IP address:", data.ip);
+            return data.ip;
+        } catch (error) {
+          // log.error("Failed to fetch IP address:", error);
+            return null;
         }
     };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();  // Prevent the default form submission behavior
+
+      // log.debug("Attempting to log in with email:", email);
+    // Simple form validation
+    if (!email || !password) {
+      // log.warn("Email and password are required");
+        setErrorMessage("Email and password are required.");
+        setIsLoading(false);
+        return;
+    }
+
+    setIsLoading(true);
+    setErrorMessage("");  // Clear any previous errors
+    try {
+        
+        const ipAddress = await getIpAddress();
+        if (!ipAddress) {
+            setErrorMessage("Failed to fetch IP address.");
+          // log.error("Failed to fetch IP address.");
+            setIsLoading(false);
+            return;
+        }
+
+        const payload = {
+            email,
+            password,
+            ip: ipAddress,
+        };
+        const response = await fetch("/api/auth/login", {  // Adjust the URL to your backend endpoint
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+        const result = await response.json();
+
+        // Log the full response body to the console
+        console.log("Response Body:", JSON.stringify(result, null, 2)); // Pretty-print the response
+      // log.debug("Response status:", response.status);
+        
+        if (result.status!=200){
+            // Handle error response
+            if (result.status === 401) {
+                setErrorMessage("Invalid email or password. Please try again.");
+            } else {
+                setErrorMessage(result.message || "An unexpected error occurred.");
+            }
+        }
+        else{
+        if (result.session) {
+          // log.info("Login successful");
+            if (!result.onboard){
+                // If the user is not onboard, redirect to onboarding page
+                router.push("/user/onboard");
+            } else {
+                // If the user is onboard, redirect to the map page
+                router.push("/map");
+            }
+            
+            // router.push("/map");  // Redirect to map page
+        } else {
+            // Handle case where login is successful, but session is missing
+            setErrorMessage("An unexpected error occurred.");
+        }
+    }
+    } catch (error) {
+      // log.error("Error during login:", error);
+        setErrorMessage("An unexpected error occurred.");
+    } finally {
+        setIsLoading(false);
+    }
+};
 
     return (
         <Glass title="Sign in">
@@ -441,6 +318,10 @@ const LogInForm = () => {
                     Log in
                 </Button>
             </form>
+            {/* Display error message */}
+            {errorMessage && (
+                <p className="text-red-500 text-sm mt-4">{errorMessage}</p>
+            )}
             <div className="font-inter flex justify-center gap-[5px] text-[16px] leading-[20px]">
                 <h3 className="font-light">Create an account.</h3>
                 <Link

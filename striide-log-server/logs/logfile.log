@@ -1,0 +1,21 @@
+[2024-12-13T12:34:56Z] [INFO] Test log
+
+[2024-12-13T16:13:58.440Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-13T11:20:50.786Z] [info] Marker added successfully
+[2024-12-13T11:20:50.786Z] [info] Marker added successfully
+[2024-12-13T11:20:50.786Z] [info] Marker added successfully
+[2024-12-13T11:20:50.786Z] [info] Marker added successfully
+[2024-12-13T11:20:50.786Z] [info] Marker added by akshay successfully
+[2024-12-13T11:20:50.786Z] [info] Marker added by ec2 successfully
+[2024-12-14T12:21:39.672Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-14T12:21:39.741Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-14T12:26:16.820Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-14T12:42:24.439Z] [info] Sign Up button clicked on the Welcome page
+[2024-12-14T12:42:57.661Z] [info] Form submission started.
+[2024-12-14T12:42:57.663Z] [warn] Form submission failed: Missing required fields.
+[2024-12-14T12:43:05.840Z] [info] Form submission started.
+[2024-12-14T12:43:06.249Z] [info] Form payload: {   "name": "asjdh",   "email": "vihen@af.com",   "password": "12",   "ip": "122.172.85.38" }
+[2024-12-14T12:43:06.250Z] [info] Redirecting user to the onboarding page.
+[2024-12-14T12:43:06.252Z] [info] Form submission process ended.
+[2024-12-14T12:46:08.233Z] [info] Form data payload ready for submission: {   "email": "vina@fae.com",   "user_info": {     "city": "Bengaluru",     "state": "KA",     "occupation": "vienf",     "gender": "Male",     "birthdate": "2024-12-06T00:00:00Z",     "phone_number": "",     "transport_modes": [       "PublicTransport",       "Driving",       "Biking",       "Walking"     ],     "commute_frequency": "Monthly",     "travel_time": "Evening",     "feed_type": "Other"   } }
+[2024-12-14T12:46:08.242Z] [error] Error submitting data: TypeError: Failed to fetch

@@ -4,6 +4,8 @@ import React, { useCallback, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
+import log from "@/logger";
+
 mapboxgl.accessToken = `${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`;
 
 interface MapContextProps {
@@ -72,15 +74,30 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     const moveMap = useCallback(
         async (options: mapboxgl.EaseToOptions) => {
-            if (!map) return;
+            if (!map) {
+              // log.warn("Map is not initialized, cannot move map.");
+                return;
+            }
+          // log.info("Moving map with options:", options);
 
             setMoving(true);
 
-            map.easeTo(options);
+          // log.debug("Set moving state to true.");
 
-            await new Promise((resolve) =>
-                setTimeout(resolve, options.duration! + 100),
-            );
+
+            try {
+                map.easeTo(options);
+              // log.debug("Map easeTo called with options:", options);
+    
+                await new Promise((resolve) =>
+                    setTimeout(resolve, options.duration! + 100),
+                );
+    
+              // log.debug("Map move completed after", options.duration! + 100, "ms");
+            } catch (error) {
+              // log.error("Error while moving map:", error);
+            }
+    
 
             setMoving(false);
         },

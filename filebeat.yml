@@ -1,0 +1,18 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /usr/share/filebeat/mylog/logfile.log
+
+output.logstash:
+  hosts: ["logstash:5044"]
+
+processors:
+  - dissect:
+      tokenizer: '[%{timestamp}] [%{loglevel}] %{message}'
+      field: "message"
+      target_prefix: ""
+  - convert:
+      fields:
+        - {from: "loglevel", to: "log.level", type: "string"}
+      ignore_missing: true

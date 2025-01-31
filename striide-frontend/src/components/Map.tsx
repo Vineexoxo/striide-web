@@ -11,6 +11,7 @@ import {
 import { useMap } from "@/contexts/MapProvider";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import log from "@/logger";
 
 // import { sendGAEvent } from "@next/third-parties/google";
 import { BASE_URL, REFRESH_BUSINESS_INTERVAL } from "@/lib/constants";
@@ -51,28 +52,46 @@ const Map: FC<MapProps> = ({
 
     useEffect(() => {
         if (!map || !map!.isStyleLoaded()) {
+            // log.warn("Map is not initialized.");
             return;
         }
         if (!markerCoords || markerCoords.length !== 2) {
+            // log.warn("Invalid marker coordinates:", markerCoords);
+
             return;
         }
+        // log.info("Adding marker to map at coordinates:", markerCoords);
 
-        new mapboxgl.Marker()
-            .setLngLat([markerCoords[0], markerCoords[1]])
-            .addTo(map!);
+        try {
+            new mapboxgl.Marker()
+                .setLngLat([markerCoords[0], markerCoords[1]])
+                .addTo(map);
+            // log.info("Marker added successfully at:", markerCoords);
+        } catch (error) {
+          // log.error("Error adding marker to map:", error);
+        }
     }, [markerCoords, map]);
 
     useEffect(() => {
-        if (!map) return;
+        if (!map) {
+            // log.warn("Map is not initialized.");
+            return;
+        }
 
         map.on("click", (event) => {
             const { lng, lat } = event.lngLat;
-            if (setUserCoords) setUserCoords([lng, lat]);
+            if (setUserCoords) {
+                // log.info("Setting user coordinates:", [lng, lat]);
+                setUserCoords([lng, lat]);
+            }
             if (chooseLocation) {
+                // log.info("Creating marker at coordinates:", [lng, lat]);
                 const marker = new mapboxgl.Marker()
                     .setLngLat([lng, lat])
                     .addTo(map);
+    
                 setTimeout(() => {
+                    // log.info("Removing marker from map after 2 seconds.");
                     marker.remove();
                 }, 2000);
             }
@@ -80,6 +99,8 @@ const Map: FC<MapProps> = ({
 
         return () => {
             map.off("click", () => {});
+            // log.info("Map click event listener removed.");
+
         };
     }, [map, chooseLocation, setUserCoords]);
 

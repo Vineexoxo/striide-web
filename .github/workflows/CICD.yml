@@ -1,0 +1,237 @@
+name: CICD Pipeline
+
+on:
+  push:
+    branches:
+      - k8s # Trigger on push to main branch
+
+jobs:
+
+  initialise:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout the code from GitHub
+      - name: Checkout code
+        uses: actions/checkout@v3
+  
+
+  # build_backend:
+  #   runs-on: ubuntu-latest
+  #   needs: initialise
+
+  #   steps:
+  #   #check code
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+
+  #     #login dockerhub
+  #     - name: Login Dockerhub
+  #       env:
+  #         DOCKER_USERNAME: "${{ secrets.DOCKER_USERNAME }}" 
+  #         DOCKER_PASSWORD: "${{ secrets.DOCKER_PASSWORD }}" 
+  #       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  #     # Step 3: Build Backend Docker image
+  #     - name: Build Backend Docker image
+  #       run: |
+  #         cd striide-backend
+  #         docker build -t vineexoxo/striide-backend:latest .
+
+  #     # Step 4: Push Backend Docker image to Dockerhub
+  #     - name: Push striide-backend to Dockerhub
+  #       run: docker push vineexoxo/striide-backend:latest
+
+  #     # Step 5: Clean up Backend Docker image
+  #     - name: Clean up Docker images
+  #       run: |
+  #         docker rmi vineexoxo/striide-backend:latest || true
+    
+
+  build_frontend:
+    runs-on: ubuntu-latest
+    needs: initialise
+
+    steps:
+        #check code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      #login dockerhub
+      - name: Login Dockerhub
+        env:
+          DOCKER_USERNAME: "${{ secrets.DOCKER_USERNAME }}" 
+          DOCKER_PASSWORD: "${{ secrets.DOCKER_PASSWORD }}" 
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+      # Step 5: Build Frontend Docker image
+      - name: Build Frontend Docker image
+        run: |
+          cd striide-frontend
+          docker build -t vineexoxo/striide-frontend:latest .
+
+      # Step 6: Push Frontend Docker image to Dockerhub
+      - name: Push striide-frontend to Dockerhub
+        run: docker push vineexoxo/striide-frontend:latest
+
+      # Step 7: Clean up Backend Docker image
+      - name: Clean up Docker images
+        run: |
+          docker rmi vineexoxo/striide-frontend:latest || true
+
+  # build_logserver:
+  #   runs-on: ubuntu-latest
+  #   needs: initialise
+
+  #   steps:
+  #     # Checkout code
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+
+  #     # Login to Docker Hub
+  #     - name: Login to Docker Hub
+  #       env:
+  #         DOCKER_USERNAME: "${{ secrets.DOCKER_USERNAME }}" 
+  #         DOCKER_PASSWORD: "${{ secrets.DOCKER_PASSWORD }}" 
+  #       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+  #     # Install dependencies
+  #     - name: Install dependencies
+  #       run: |
+  #         cd striide-log-server
+  #         npm install
+
+  #     # Run tests
+  #     - name: Testing
+  #       run: |
+  #         cd striide-log-server
+  #         npm test
+  #     # Build logserver Docker image
+  #     - name: Build logserver Docker image
+  #       run: |
+  #         cd striide-log-server
+  #         docker build -t vineexoxo/striide-logserver:latest .
+
+  #     # Push logserver Docker image to Docker Hub
+  #     - name: Push logserver to Docker Hub
+  #       run: docker push vineexoxo/striide-logserver:latest
+
+  #     # Clean up Docker images
+  #     - name: Clean up Docker images
+  #       run: |
+  #         docker rmi vineexoxo/striide-logserver:latest || true
+  
+  # deploy_backend:
+  #   needs: build_backend
+  #   runs-on: ["self-hosted","vinee"]
+
+  #   steps:
+  #     # Step 1: Pull Backend Docker Image
+  #     - name: Pull Backend Docker Image
+  #       run:  docker pull vineexoxo/striide-backend:latest
+
+  #     # Step 2: Delete old Backend Docker Container (if exists)
+  #     - name: Delete old Backend Docker Container
+  #       run:   docker rm -f striide-backend-container || true
+
+  #     # Step 3: Run Backend Docker Container
+  #     - name: Run Backend Docker Container
+  #       env:
+  #         ROCKET_DATABASES: ${{ secrets.ROCKET_DATABASES }}
+  #         ENV: ${{ secrets.ENV }}
+  #         XATA_API_KEY: ${{ secrets.XATA_API_KEY }}
+  #       run: |
+  #           docker run --rm -d \
+  #           --name striide-backend-container \
+  #           -p 8000:8080 \
+  #           -e ROCKET_DATABASES='{postgres={url="postgresql://cb2s42:xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3@us-east-1.sql.xata.sh/striide:main?sslmode=require", max_connections=1024}}' \
+  #           -e ENV='development' \
+  #           -e XATA_API_KEY='xau_1d9LHuNg9qIh0dpuA14x1URryIQ5soOr3' \
+  #           vineexoxo/striide-backend:latest
+
+  deploy_frontend:
+    needs: build_frontend
+    runs-on: ["self-hosted","vinee"]
+
+    steps:
+          # Step 1: Checkout Repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Apply Deployment Configuration
+        run: kubectl apply -f frontend-deployment.yaml
+
+      # Step 5: Rollout Restart Deployment
+      - name: Restart Kubernetes Deployment
+        run: kubectl rollout restart deployment/striide-frontend
+      # # Step 1: Pull Frontend Docker Image
+      # - name: Pull Frontend Docker Image
+      #   run:  docker pull vineexoxo/striide-frontend:latest
+
+      # # Step 2: Delete old Frontend Docker Container (if exists)
+      # - name: Delete old Frontend Docker Container
+      #   run: docker rm -f striide-frontend-container || true
+
+      # # Step 3: Run Frontend Docker Container
+      # - name: Run frontend Docker container
+      #   env:
+      #     NEXT_PUBLIC_MAPBOX_TOKEN: "${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}" 
+      #     NEXT_PUBLIC_MAPBOX_MAP_STYLE: "${{ secrets.NEXT_PUBLIC_MAPBOX_MAP_STYLE }}" 
+      #     NEXT_PUBLIC_API_URL: "${{ secrets.NEXT_PUBLIC_API_URL }}" 
+      #     NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN: "${{ secrets.NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN }}" 
+      #     NEXT_PUBLIC_BACKEND_URL: "${{ secrets.NEXT_PUBLIC_BACKEND_URL }}" 
+      #   run: |
+      #      docker run --rm -d \
+      #       --name striide-frontend-container \
+      #       -e NEXT_PUBLIC_MAPBOX_TOKEN=$NEXT_PUBLIC_MAPBOX_TOKEN \
+      #       -e NEXT_PUBLIC_MAPBOX_MAP_STYLE=$NEXT_PUBLIC_MAPBOX_MAP_STYLE \
+      #       -e NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+      #       -e NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN=$NEXT_PUBLIC_SEARCH_API_SESSION_TOKEN \
+      #       -e NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL \
+      #       -p 3000:3000 \
+      #       vineexoxo/striide-frontend:latest
+
+  # start_ELK_LOG_SERVER:
+  #   needs: 
+  #     - build_logserver
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     # Step 1: Checkout repository
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
+      
+  #     # Step 2: Install Ansible
+  #     - name: Install Ansible
+  #       run: |
+  #            sudo apt-get update
+  #            sudo apt-get install -y ansible
+        
+  #     # Step 2: Delete old logserver Docker Container (if exists)
+  #     - name: Delete old logserver Docker Container
+  #       run:   docker rm -f logserver || true
+
+  #     # Step 2: Delete old filebeat Docker Container (if exists)
+  #     - name: Delete old filebeat Docker Container
+  #       run:   docker rm -f filebeat || true
+
+  #     # Step 2: Delete old kibana Docker Container (if exists)
+  #     - name: Delete old kibana Docker Container
+  #       run:   docker rm -f kibana || true
+
+  #     # Step 2: Delete old logstash Docker Container (if exists)
+  #     - name: Delete old logstash Docker Container
+  #       run:   docker rm -f logstash || true
+
+  #     # Step 2: Delete old elasticsearch Docker Container (if exists)
+  #     - name: Delete old elasticsearch Docker Container
+  #       run:   docker rm -f elasticsearch || true
+
+  #     # Step 3: Run Ansible playbook with inventory file for dockercompose
+  #     - name: Run Ansible playbook to set up ELK stack
+  #       run: |
+  #         ansible-playbook -i inventory.ini setup_elk.yml
+      
+  #     # Step 3: Pull and start ELK stack with Docker Compose
+  #     - name: Start ELK stack and log server
+  #       run: |
+  #         docker-compose -f ./docker-compose.yml up -d
+          
