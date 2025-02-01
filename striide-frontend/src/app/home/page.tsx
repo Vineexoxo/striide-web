@@ -1,12 +1,23 @@
+"use client";
+
 import Image from "next/image";
 import LandingForm from "@/components/landing/LandingForm";
 import Link from "next/link";
 import LandingLink from "@/components/landing/LandingLink";
+import { useEffect } from "react";
+import { checkAuthCookie } from "@/lib/check-auth";
+
 
 export default function Home() {
+
+    useEffect(() => {
+        checkAuthCookie();
+    }, []);
+
     return (
         <main className="bg-landing-background">
             <div className="relative h-[929px] max-h-screen w-screen md:max-h-none">
+
                 <div className="absolute top-0 z-10 flex h-[80px] w-full items-center bg-white bg-opacity-[0.17] backdrop-blur-[20px]">
                     <h1 className="font-inter text-landing-background ml-[40px] h-fit w-fit p-[8px] text-center text-[37px] font-bold italic md:ml-[144px]">
                         Striide

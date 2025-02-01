@@ -9,6 +9,7 @@ import MapProvider from '@/contexts/MapProvider'
 import Map from "@/components/Map";
 import { useRouter } from 'next/navigation'
 import NotFoundIcon from "@/components/NotFoundIcon";
+import { checkAuthCookie } from '@/lib/check-auth'
 
 type ReportDraft = {
     reportID: string,
@@ -30,6 +31,10 @@ const SavedDrafts: FC = ({ }) => {
     const [time, setTime] = useState(4);
 
     const [isFetching, setIsFetching] = useState(true);
+
+    useEffect(() => {
+        checkAuthCookie();
+    }, []);
 
     useEffect(() => {
         if (!time) { return; }

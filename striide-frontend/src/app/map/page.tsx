@@ -18,6 +18,7 @@ import { BASE_URL } from "@/lib/constants";
 import Geolocator from "@/components/Geolocator";
 import Link from "next/link";
 import log from "@/logger";
+import { checkAuthCookie } from "@/lib/check-auth";
 const MapOptions = {
     latitude: 42.362,
     longitude: -71.057,
@@ -204,6 +205,9 @@ export default function MapPage() {
         }
     }, [searchParams]);
 
+    useEffect(() => {
+        checkAuthCookie();
+    }, []);
 
     let default_feature: Feature = {
         geometry: {

@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthProvider'
 import { BASE_URL } from '@/lib/constants'
 import { MediaType } from '@/lib/types'
 import ReportForm from '@/components/reports/ReportsForm'
+import { checkAuthCookie } from '@/lib/check-auth'
 
 type ReportDraft = {
     coordinates: number[],
@@ -33,6 +34,10 @@ const reducer = (state: ReportDraft, action: any) => {
 const DynamicDraft = ({ params }: { params: { slug: string } }) => {
     const { slug } = params
     const { request } = useAuth();
+
+    useEffect(() => {
+        checkAuthCookie();
+    }, []);
 
     const initialFormState = {
         address: "",
