@@ -6,13 +6,31 @@ import Link from "next/link";
 import LandingLink from "@/components/landing/LandingLink";
 import { useEffect } from "react";
 import { checkAuthCookie } from "@/lib/check-auth";
-
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+    const router = useRouter();
 
     useEffect(() => {
-        checkAuthCookie();
-    }, []);
+        const checkUserAuthentication = async () => {
+            try {
+                const response = await fetch('http://localhost:3001/api/get-user', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
+                if (!data.user || data.user.role !== 'authenticated') {
+                    router.push('/user/login');
+                }
+            } catch (error) {
+                console.error('Error checking user authentication:', error);
+            }
+        };
+
+        checkUserAuthentication();
+    }, [router]);
 
     return (
         <main className="bg-landing-background">

@@ -5,6 +5,7 @@ import { BASE_URL } from '@/lib/constants'
 import { MediaType } from '@/lib/types'
 import ReportForm from '@/components/reports/ReportsForm'
 import { checkAuthCookie } from '@/lib/check-auth'
+import { useRouter } from 'next/navigation'
 
 type ReportDraft = {
     coordinates: number[],
@@ -33,11 +34,29 @@ const reducer = (state: ReportDraft, action: any) => {
 
 const DynamicDraft = ({ params }: { params: { slug: string } }) => {
     const { slug } = params
+    const router = useRouter();
     const { request } = useAuth();
 
     useEffect(() => {
-        checkAuthCookie();
-    }, []);
+        const checkUserAuthentication = async () => {
+            try {
+                const response = await fetch('http://localhost:3001/api/get-user', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
+                if (!data.user || data.user.role !== 'authenticated') {
+                    router.push('/user/login');
+                }
+            } catch (error) {
+                console.error('Error checking user authentication:', error);
+            }
+        };
+
+        checkUserAuthentication();
+    }, [router]);
 
     const initialFormState = {
         address: "",

@@ -73,7 +73,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 setRefreshToken(session.refresh_token);  // Store refresh token
                 setUser(session.user);  // Store user data
             } else {
-                router.push("/user/login");  // Redirect to login if session is invalid
             }
         };
         init();

@@ -3,7 +3,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import MapProvider from "@/contexts/MapProvider";
 import Map from "@/components/Map";
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Reports from "@/components/reports/Reports";
 import { Feature, Suggestion } from "@/lib/types";
 import {
@@ -18,7 +18,6 @@ import { BASE_URL } from "@/lib/constants";
 import Geolocator from "@/components/Geolocator";
 import Link from "next/link";
 import log from "@/logger";
-import { checkAuthCookie } from "@/lib/check-auth";
 const MapOptions = {
     latitude: 42.362,
     longitude: -71.057,
@@ -175,11 +174,33 @@ const getMapboxFeatures = (params: URLSearchParams, id: string) => {
 };
 
 export default function MapPage() {
+    const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [showFeedbackModal, setShowFeedbackModal] = useState(false);
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const checkUserAuthentication = async () => {
+            try {
+                const response = await fetch('http://localhost:3001/api/get-user', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
+                if (!data.user || data.user.role !== 'authenticated') {
+                    router.push('/user/login');
+                }
+            } catch (error) {
+                console.error('Error checking user authentication:', error);
+            }
+        };
+
+        checkUserAuthentication();
+    }, [router]);
 
     const showFeedback = (message: string) => {
         // log.info("Displaying feedback:", message); // Log feedback display
@@ -205,9 +226,6 @@ export default function MapPage() {
         }
     }, [searchParams]);
 
-    useEffect(() => {
-        checkAuthCookie();
-    }, []);
 
     let default_feature: Feature = {
         geometry: {

@@ -33,8 +33,25 @@ const SavedDrafts: FC = ({ }) => {
     const [isFetching, setIsFetching] = useState(true);
 
     useEffect(() => {
-        checkAuthCookie();
-    }, []);
+        const checkUserAuthentication = async () => {
+            try {
+                const response = await fetch('http://localhost:3001/api/get-user', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
+                if (!data.user || data.user.role !== 'authenticated') {
+                    router.push('/user/login');
+                }
+            } catch (error) {
+                console.error('Error checking user authentication:', error);
+            }
+        };
+
+        checkUserAuthentication();
+    }, [router]);
 
     useEffect(() => {
         if (!time) { return; }
