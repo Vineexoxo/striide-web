@@ -53,7 +53,6 @@ const OnboardingForm = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         // log.debug(`Form field changed: ${name} = ${value}`);
-        console.log("alskeaos");
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -119,16 +118,9 @@ const OnboardingForm = () => {
     const handleReferralSourceChange = (referralSource: string) => {
         // log.debug("Referral source changed to:", referralSource);
 
-        const sourceMap: { [key: string]: string } = {
-            "Social Media": "Social_media",
-            "Friends / Family": "Friends_Family",
-            "Email / Newsletter": "Email_Newsletter",
-            "Exploring the app store": "Exploring_Apps",
-            "Other": "Other"
-        };
         setFormData((prevData) => ({
             ...prevData,
-            referralSource: sourceMap[referralSource] || referralSource,
+            referralSource,
         }));
     };
 

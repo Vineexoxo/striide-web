@@ -41,13 +41,13 @@ const OnboardingStepOne = ({
             formData.state.trim() &&
             formData.occupation.trim() &&
             formData.birthday.trim() &&
-            formData.phoneNumber.trim() &&
+            // formData.phoneNumber.trim() &&
             formData.gender &&
             formData.isConfirmed;
 
         if (!isFormValid) {
             alert("Please fill in all fields and confirm the terms to continue.");
-            // log.warn("Form submission failed: Missing required fields or terms not confirmed.");
+          // log.warn("Form submission failed: Missing required fields or terms not confirmed.");
 
             return;
         }
@@ -70,8 +70,8 @@ const OnboardingStepOne = ({
                         <div className="relative">
                             <input
                                 type={field === 'Birthday' ? 'date' : 'text'}
-                                name={field === 'Phone number' ? 'phoneNumber' : field.toLowerCase().replace(" ", "")}
-                                value={String(formData[field === 'Phone number' ? 'phoneNumber' : field.toLowerCase().replace(" ", "") as keyof FormFields])}
+                                name={field.toLowerCase().replace(" ", "")}
+                                value={String(formData[field.toLowerCase().replace(" ", "") as keyof FormFields])}
                                 onChange={handleChange}
                                 className={`font-semibold w-full border-b border-[#A9A9A9] pt-3 bg-secondary-white focus:outline-none ${field === 'Birthday' ? 'date-input pr-8' : ''
                                     }`}
