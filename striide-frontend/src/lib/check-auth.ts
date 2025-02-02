@@ -2,7 +2,7 @@ export const checkAuthCookie = () => {
     const cookies = document.cookie.split('; ');
     console.log("All Cookies:", document.cookie);
 
-    const authCookie = cookies.find(cookie => cookie.startsWith('sb-tohxmilrziavnolisikd-auth-token='));
+    const authCookie = cookies.find(cookie => cookie.startsWith('auth_cookie='));
 
     console.log("Auth Cookie:", authCookie);
 

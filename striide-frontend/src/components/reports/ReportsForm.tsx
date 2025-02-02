@@ -227,7 +227,7 @@ const ReportForm: FC<ReportFormProps> = ({
         console.log(formData.buttonType);
 
         if (formData.buttonType === "discard") {
-            const response = await request(`${process.env.NEXT_PUBLIC_BACKEND_URL}api/discard_draft`, {
+            const response = await request(`http://localhost:3001/api/discard_draft`, {
                 method: "POST",
                 headers: {
                     Accept: "*/*",
@@ -237,8 +237,6 @@ const ReportForm: FC<ReportFormProps> = ({
                     reportID: reportID,
                 }),
             });
-
-            
 
             if (response.status !== 200) {
                 setError("Something went wrong, please try again later");
@@ -252,7 +250,7 @@ const ReportForm: FC<ReportFormProps> = ({
         }
 
         if (formData.buttonType === "submit" && isDraft) {
-            const response = await request(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/publish_draft`, {
+            const response = await request(`http://localhost:3001/api/publish_draft`, {
                 method: "POST",
                 headers: {
                     Accept: "*/*",
@@ -263,8 +261,6 @@ const ReportForm: FC<ReportFormProps> = ({
                 }),
             });
 
-            // console.log(await response.json());
-
             if (response.status !== 200) {
                 setError("Something went wrong, please try again later");
             }
@@ -274,7 +270,7 @@ const ReportForm: FC<ReportFormProps> = ({
             return;
         }
 
-        const response = await request(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/upload_report`, {
+        const response = await request(`http://localhost:3001/api/upload_report`, {
             method: "POST",
             headers: {
                 Accept: "*/*",
@@ -282,15 +278,10 @@ const ReportForm: FC<ReportFormProps> = ({
             },
             body: JSON.stringify({
                 address: formData.address,
-                location: formData.coordinates,
+                location: formData.coordinates.join(', '),
                 description: formData.description,
                 duration: formData.duration,
-                is_published: formData.buttonType === "submit" ? true : false,
-                media: formData.media.map((m: MediaType) => ({
-                    name: m.name,
-                    media_type: m.media_type,
-                    base64: m.base64,
-                })),
+                is_published: true,
             }),
         });
 
@@ -301,9 +292,6 @@ const ReportForm: FC<ReportFormProps> = ({
 
         setSubmissionLoading(false);
         router.push("/map?marked=true");
-
-
-        // router.push("/map");
     };
 
     useEffect(() => {

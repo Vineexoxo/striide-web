@@ -131,7 +131,7 @@ const Feedback = () => {
             console.log("Missing required fields");
             return;
         }
-        const res = await request(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/feedback`, {
+        const res = await request(`http://localhost:3001/api/feedback`, {
             method: "POST",
             body: JSON.stringify({
                 report_type: report_type[formData.type!],
@@ -139,11 +139,11 @@ const Feedback = () => {
                 severity: severity[formData.severity!],
                 stars: formData.stars,
                 contact: formData.contact,
-                media: formData.media.map((m) => ({
-                    name: m.name,
-                    media_type: m.media_type,
-                    base64: m.base64,
-                })),
+                // media: formData.media.map((m) => ({
+                //     name: m.name,
+                //     media_type: m.media_type,
+                //     base64: m.base64,
+                // })),
             }),
         });
         // console.log(await res.text());
